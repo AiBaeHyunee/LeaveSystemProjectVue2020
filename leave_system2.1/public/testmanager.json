@@ -1,0 +1,15 @@
+{
+    "list": [
+      {
+        "id": 1,
+        "loginName": "saj",
+        "tempRoleIds": 1,
+        "roleIds": 1,
+        "name": "bbh",
+        "mobile": "123",
+        "address": "cd",
+        "email": "123@qq.com"
+      }
+    ],
+    "pageTotal": 1
+}

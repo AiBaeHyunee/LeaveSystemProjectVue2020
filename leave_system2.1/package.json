@@ -1,0 +1,60 @@
+{
+  "name": "leave_system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "serve:randy": "cross-env API_TYPE=randy vue-cli-service serve",
+    "serve:peter": "cross-env API_TYPE=peter vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "analyze": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
+    "dll": "webpack -p --progress --config ./webpack.dll.conf.js",
+    "start": "node index.js",
+    "server": "nodemon index.js --ignore client"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "core-js": "^3.6.5",
+    "element": "^0.1.4",
+    "element-ui": "^2.14.1",
+    "js-cookie": "^2.2.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.0.7",
+    "vue-schart": "^2.0.0",
+    "vuex": "^3.5.1",
+    "webpack-merge": "latest"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.8",
+    "@vue/cli-plugin-eslint": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
