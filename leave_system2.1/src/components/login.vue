@@ -31,17 +31,16 @@
 <!--                        <el-button size="small" @click="refreshCode" id="yz">看不清，换一张验证码</el-button>-->
 <!--                    </div>-->
 <!--                </template>-->
-                    <el-form-item>
-                        //方法一
+                    //方法一
+                    <div class="login-btn">
                         <el-button type="primary" @click="submitForm()">登录</el-button>
-                        //方法二
-<!--                        <el-button type="primary" @click="submitForm('param')">登录</el-button>-->
-                    </el-form-item>
-
-<!--                <div class="login-btn">-->
-<!--                    <el-button type="primary" @click="submitForm('param')">登录</el-button>-->
-<!--&lt;!&ndash;                    <el-button @click="resetForm('param')">重置</el-button>&ndash;&gt;-->
-<!--                </div>-->
+                        <!--                    <el-button @click="resetForm('param')">重置</el-button>-->
+                    </div>
+                    //方法二
+<!--                    <el-form-item>-->
+<!--                        <el-button type="primary" @click="submitForm()">登录</el-button>-->
+<!--&lt;!&ndash;                     <el-button type="primary" @click="submitForm('param')">登录</el-button>&ndash;&gt;-->
+<!--                    </el-form-item>-->
 
             </el-form>
         </div>
