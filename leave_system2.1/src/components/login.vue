@@ -31,12 +31,12 @@
 <!--                        <el-button size="small" @click="refreshCode" id="yz">看不清，换一张验证码</el-button>-->
 <!--                    </div>-->
 <!--                </template>-->
-                    //方法一
+<!--                    方法一-->
                     <div class="login-btn">
                         <el-button type="primary" @click="submitForm()">登录</el-button>
                         <!--                    <el-button @click="resetForm('param')">重置</el-button>-->
                     </div>
-                    //方法二
+<!--                    方法二-->
 <!--                    <el-form-item>-->
 <!--                        <el-button type="primary" @click="submitForm()">登录</el-button>-->
 <!--&lt;!&ndash;                     <el-button type="primary" @click="submitForm('param')">登录</el-button>&ndash;&gt;-->
@@ -49,7 +49,7 @@
 
 <script>
     export default{
-        data: function() {
+        data(){
             return {
                 param: {
                     username: '2018110427',
@@ -66,25 +66,25 @@
         },
         methods: {
             //方法一
-            submitForm(){
-                this.$refs.login.validate(async valid => {
+            submitForm() {
+                this.$refs.param.validate(async valid => {
                     if (!valid) return;
                     console.log("login")
-                    const {data:res} = await this.$http.post('/login?username='+this.param.username+'&password='+this.param.password)
+                    const {data: res} = await this.$http.post('/login?username=' + this.param.username + '&password=' + this.param.password)
                     console.log(res)
-                    if(res.code !==20000) return this.$message.error(res.massage)
+                    if (res.code !== 20000) return this.$message.error(res.massage)
                     this.$message.success(res.massage)
                     // window.sessionStorage.setItem('token',res.data.token)
                     this.$router.push('/home')
                 });
-            }
+            },
 
             //方法二
-            // submitForm(formName){
-            //     this.$refs[formName].validate((vaild)=>{
+            // submitForm(){
+            //     this.$refs.param.validate((vaild)=>{
             //         if(vaild){
             //             console.log("login")
-            //             this.$axios.post("http://localhost:8888/login",this.param).then(res=>{
+            //             this.$axios.post('/login?username=' + this.param.username + '&password=' + this.param.password).then(res=>{
             //                 // const jwt = res.headers[]
             //                 const userInfo = res.data.data
             //                 console.log(userInfo)
@@ -110,7 +110,7 @@
             //         }
             //     });
             // },
-           //     randomNum (min, max) {
+            //     randomNum (min, max) {
             //         return Math.floor(Math.random() * (max - min) + min)
             //     },
             //     refreshCode () {
@@ -123,10 +123,11 @@
             //         }
             //     }
             // },
-            // mounted () {
-            //     this.identifyCode = ''
-            //     this.makeCode(this.identifyCodes, 4)
-            }
+        },
+        mounted () {
+            // this.identifyCode = ''
+            // this.makeCode(this.identifyCodes, 4)
+        },
     }
 </script>
 
