@@ -34,7 +34,7 @@
 </template>
 <script>
     import bus from '../components/common/bus';
-    import menu from '@/api/edu/menu';
+    // import menu from '@/api/edu/menu';
     // import {routes} from '../router';
     export default {
         data(){
@@ -56,9 +56,14 @@
         },
         methods:{
             getMenuList(){
-                menu.getMenu().then(response =>{//请求成功
-                    //response接口返回的数据
-                    this.List = response.data
+                // menu.getMenu().then(response =>{//请求成功
+                //     //response接口返回的数据
+                //     this.List = response.data
+                //     console.log(this.List)
+                // })
+                console.log("login")
+                this.$axios.get('/common/menu').then(res=>{
+                    this.List = res.data.data
                     console.log(this.List)
                 })
             },
