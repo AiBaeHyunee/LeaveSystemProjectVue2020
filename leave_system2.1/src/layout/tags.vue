@@ -1,8 +1,8 @@
 <template>
     <div class="tags" v-if="showTags">
         <ul>
-            <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
-                <router-link :to="item.path" class="tags-li-title">
+            <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.url)}" :key="index">
+                <router-link :to="item.url" class="tags-li-title">
                     <span>{{item.title}}</span>
 <!--                    <span>{{item.name}}</span>-->
                 </router-link>
@@ -32,15 +32,15 @@
             }
         },
         methods: {
-            isActive(path) {
-                return path === this.$route.fullPath;
+            isActive(url) {
+                return url === this.$route.fullPath;
             },
             // 关闭单个标签
             closeTags(index) {
                 const delItem = this.tagsList.splice(index, 1)[0];
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
-                    delItem.path === this.$route.fullPath && this.$router.push(item.path);
+                    delItem.url === this.$route.fullPath && this.$router.push(item.url);
                 }else{
                     this.$router.push('/');
                 }
@@ -53,14 +53,14 @@
             // 关闭其他标签
             closeOther(){
                 const curItem = this.tagsList.filter(item => {
-                    return item.path === this.$route.fullPath;
+                    return item.url === this.$route.fullPath;
                 })
                 this.tagsList = curItem;
             },
             // 设置标签
             setTags(route){
                 const isExist = this.tagsList.some(item => {
-                    return item.path === route.fullPath;
+                    return item.url === route.fullPath;
                 })
                 if(!isExist){
                     if(this.tagsList.length >= 8){
@@ -68,7 +68,7 @@
                     }
                     this.tagsList.push({
                         title: route.meta.title,
-                        path: route.fullPath,
+                        url: route.fullPath,
                         name: route.matched[1].components.default.name
                     })
                 }
@@ -95,11 +95,11 @@
             bus.$on('close_current_tags', () => {
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
                     const item = this.tagsList[i];
-                    if(item.path === this.$route.fullPath){
+                    if(item.url === this.$route.fullPath){
                         if(i < len - 1){
-                            this.$router.push(this.tagsList[i+1].path);
+                            this.$router.push(this.tagsList[i+1].url);
                         }else if(i > 0){
-                            this.$router.push(this.tagsList[i-1].path);
+                            this.$router.push(this.tagsList[i-1].url);
                         }else{
                             this.$router.push('/');
                         }

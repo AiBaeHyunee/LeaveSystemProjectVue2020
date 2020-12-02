@@ -48,7 +48,7 @@
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}}
+                        {{clerk}}
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -70,17 +70,26 @@
             return {
                 collapse: true,
                 fullscreen: false,
-                name: 'manager1',
-                message: 2
+                name: '用户未登录',
+                message: 2,
+                clerk:'',
             };
         },
-        computed: {
-            username() {
-                let username = localStorage.getItem('ms_username');
-                return username ? username : this.name;
-            }
+        created() {
+            this.username();
         },
         methods: {
+            username() {
+                let username =  window.sessionStorage.getItem("clerkName");
+                console.log(username);
+                if(username){
+                    this.clerk = username
+                }
+                else{
+                    this.clerk = name;
+                }
+            },
+
             // 用户名下拉菜单选择事件
             handleCommand(command) {
                 if (command == 'userinfo') {

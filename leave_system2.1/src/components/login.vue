@@ -47,6 +47,8 @@
                     if (res.code !== 20000) return this.$message.error(res.message)
                     console.log(res.message)
                     this.$message.success(res.message)
+                    console.log(res.data.clerkName)
+                    window.sessionStorage.setItem("clerkName",res.data.clerkName)
                     this.$router.push('/home')
                 });
             },
