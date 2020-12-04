@@ -49,6 +49,10 @@
                     this.$message.success(res.message)
                     console.log(res.data.clerkName)
                     window.sessionStorage.setItem("clerkName",res.data.clerkName)
+                    console.log(res.data.clerkAccount)
+                    window.sessionStorage.setItem("clerkAccount",res.data.clerkAccount)
+                    console.log(res.data.department)
+                    window.sessionStorage.setItem("department",res.data.department)
                     this.$router.push('/home')
                 });
             },

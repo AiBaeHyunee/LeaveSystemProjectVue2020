@@ -7,7 +7,7 @@
                     <div class="user-info">
                         <img src="../assets/img/img.jpg" class="user-avator" alt />
                         <div class="user-info-cont">
-                            <div class="user-info-name">{{name}}</div>
+                            <div class="user-info-name">{{account}}</div>
                             <div>{{role}}</div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="grid-content grid-con-1">
                             <i class="el-icon-lx-people grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>学生信息</div>
+                                <div>个人信息</div>
                             </div>
                         </div>
                     </el-card>
@@ -58,7 +58,7 @@
                         <div class="grid-content grid-con-2">
                             <i class="el-icon-lx-notice grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>学生离校进度</div>
+                                <div>离校进度</div>
                             </div>
                         </div>
                     </el-card>
@@ -106,9 +106,12 @@
     export default {
         data() {
             return {
-                name: '用户',
+                name:'未登录',
+                department:'无角色',
                 message: 'first',
                 showHeader: false,
+                account:'',
+                role:'',
                 todoList: [{
                     date: '2020-04-19 20:00:00',
                     title: '【财务部】2017届毕业生离校请退校园卡通知',
@@ -130,15 +133,24 @@
                 }]
             }
         },
-        components: {
-            // Schart
-        },
-        computed: {
-            role() {
-                return this.name === 'admin' ? '超级管理员' : '普通用户';
-            }
+        created() {
+            this.roles();
         },
         methods: {
+            roles(){
+                let useraccount =  window.sessionStorage.getItem("clerkAccount");
+                console.log(useraccount);
+                if(useraccount){
+                    this.account = useraccount;
+                }
+
+                let userrole =  window.sessionStorage.getItem("department");
+                console.log(userrole);
+                if(userrole){
+                    this.role = userrole;
+                }
+
+            },
             changeDate() {
                 const now = new Date().getTime();
                 this.data.forEach((item, index) => {
@@ -219,7 +231,7 @@
     }
 
     .user-info-cont div:first-child {
-        font-size: 30px;
+        font-size: 20px;
         color: #222;
     }
 

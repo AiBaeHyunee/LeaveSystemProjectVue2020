@@ -61,7 +61,7 @@
                 //     this.List = response.data
                 //     console.log(this.List)
                 // })
-                console.log("login")
+                console.log("gotmenu")
                 this.$axios.get('/common/menu').then(res=>{
                     this.List = res.data.data
                     console.log(this.List)

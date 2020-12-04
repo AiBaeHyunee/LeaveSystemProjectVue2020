@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router  from "./router";
+import store from '@/store/index'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -33,6 +34,28 @@ Vue.prototype.$http = axios;
 axios.defaults.withCredentials=true;
 axios.defaults.baseURL = 'http://localhost:8888'
 /*导入内容*/
+
+router.beforeEach((to, from, next) => {
+  if (!store.state.UserToken) {
+    if (to.matched.length > 0 && !to.matched.some(record => record.meta.requiresAuth)) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  } else {
+    if (!store.state.permission.permissionList) {
+      store.dispatch('permission/FETCH_PERMISSION').then(() => {
+        next({ path: to.path })
+      })
+    } else {
+      if (to.path !== '/login') {
+        next()
+      } else {
+        next(from.fullPath)
+      }
+    }
+  }
+})
 
 new Vue({
   router,
