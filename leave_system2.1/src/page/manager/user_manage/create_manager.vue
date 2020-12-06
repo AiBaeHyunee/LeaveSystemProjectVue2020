@@ -255,6 +255,12 @@
                         console.log(this.tableData)
                         console.log(this.totalRecord)
                     })
+                // this.$axios.get('/admin/user').then(res=>{
+                //     this.tableData = res.data
+                //     this.totalRecord = res.data.length
+                //     console.log(this.tableData)
+                //     console.log(this.totalRecord)
+                // })
             },
             //搜索
             doSearch(){

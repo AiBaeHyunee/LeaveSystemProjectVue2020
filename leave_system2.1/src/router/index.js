@@ -140,7 +140,7 @@ export const  routes =[
                 ]
             },
             {
-                path:'/manager',
+                path:'/manage',
                 hidden:false,
                 // name:'管理员功能',
                 meta: { title: '管理员功能'},

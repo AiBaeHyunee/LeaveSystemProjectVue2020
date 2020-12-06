@@ -10,10 +10,16 @@
                      text-color="#bfcbd9"
                      active-text-color="#20a0ff">
                 <!-- 一级菜单  -->
-                <el-submenu :index="item.id+''" v-for="item in List" :key="item.id" >
+                <template v-for="item in List">
+                    <el-menu-item v-if="(item.children==0)&&!item.hidden" :index="item.url" :key="item.id" @click="saveNavState('/' + item.url)">
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>{{ item.name}}</span>
+                        </template>
+                    </el-menu-item>
+                <el-submenu v-if="(item.children!=0)&&!item.hidden" :index="item.id+''" :key="item.id" >
                     <!-- 一级菜单的模板区域 -->
                     <template slot="title">
-<!--                        <i :class="iconObj[item.id]"></i>-->
                         <i class="el-icon-menu"></i>
                         <span>{{ item.name}}</span>
                     </template>
@@ -28,6 +34,8 @@
                         </template>
                     </el-menu-item>
                 </el-submenu>
+
+                </template>
             </el-menu>
     </div>
 
