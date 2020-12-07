@@ -97,16 +97,16 @@
                     <el-input v-model="dataForm.clerkAccount" placeholder="用户账号"></el-input>
                 </el-form-item>
                 <!--                    multiple-->
-<!--                <el-form-item label="用户角色" prop="roleIds">-->
-<!--                    <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;">-->
-<!--                        <el-option-->
-<!--                                v-for="item in roles"-->
-<!--                                :key="item.index"-->
-<!--                                :label="item.name"-->
-<!--                                :value="item.name">-->
-<!--                        </el-option>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
+                <el-form-item label="用户角色" prop="roleIds">
+                    <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;"  multiple>
+                        <el-option
+                                v-for="item in roles"
+                                :key="item.index"
+                                :label="item.name"
+                                :value="item.name">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
                 <el-form-item label="真实姓名" prop="clerkName">
                     <el-input v-model="dataForm.clerkName" placeholder="真实姓名"></el-input>
