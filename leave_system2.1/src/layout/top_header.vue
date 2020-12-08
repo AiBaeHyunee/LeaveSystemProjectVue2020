@@ -113,6 +113,7 @@
                 }
                 else if (command == 'loginout') {
                     localStorage.removeItem('ms_username');
+                    this.$axios.get('/logout');
                     this.$router.push('/login');
                 }
             },

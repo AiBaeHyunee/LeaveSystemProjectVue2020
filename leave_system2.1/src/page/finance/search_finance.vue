@@ -37,7 +37,7 @@
                     <el-table-column prop="stuType" label="学历" min-width="120" ></el-table-column>
                     <el-table-column prop="expense" label="应退款" min-width="120" sortable></el-table-column>
 
-                    <el-table-column label="财务处状态" min-width="120" sortable style="position: center"
+                    <el-table-column label="财务处状态" min-width="120"  style="position: center"
                                      :filters="[{ text: '已通过', value: '1' }, { text: '未通过', value: '0' }]"
                                      :filter-method="filterTag"
                                      filter-placement="bottom-end">
@@ -88,7 +88,7 @@
                 },
                 total: 0,//总记录数
                 page:1,//当前页
-                limit:5,//每页记录数
+                limit:10,//每页记录数
 
                 financeData: [],
             }
@@ -105,11 +105,10 @@
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
                     this.total = res.data.data.total;
-                    this.page = res.data.data.pages;
+
                     this.financeData = res.data.data.list;
 
-                    console(this.page);
-                    console(this.total);
+                    console.log(this.total);
 
                 }, function(err) {
                     console.log(err);

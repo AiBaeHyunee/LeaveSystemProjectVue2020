@@ -23,7 +23,6 @@
 
             <div>
                 <el-table
-                        v-loading.body="tableLoading"
                         ref="singleTable"
                         :data="cardData"
                         border
@@ -38,7 +37,7 @@
                     <el-table-column prop="cardBalance" label="一卡通余额" min-width="120" sortable></el-table-column>
 
 <!--                    :type="scope.row.cardStatus === '1' ? 'danger' : 'success'"-->
-                    <el-table-column label="一卡通状态" min-width="120" sortable style="position: center"
+                    <el-table-column label="一卡通状态" min-width="120"  style="position: center"
                                      :filters="[{ text: '已通过', value: '1' }, { text: '未通过', value: '0' }]"
                                      :filter-method="filterTag"
                                      filter-placement="bottom-end">
@@ -54,7 +53,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.stuNumber)" v-if="scope.row.cardStatus==='0'">审核</el-button>
-                                <el-button type="danger" size="mini" icon ="el-icon-delete" @click="removeReview(scope.row.stuNumber)" v-if="scope.row.cardStatus==='1'">详情</el-button>
+                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="removeReview(scope.row.stuNumber)" v-if="scope.row.cardStatus==='1'">详情</el-button>
                             </div>
                         </template>
                     </el-table-column>
@@ -91,7 +90,7 @@
                 },
                 total: 0,//总记录数
                 page:1,//当前页
-                limit:5,//每页记录数
+                limit:10,//每页记录数
 
                 cardData: []
             }
@@ -101,22 +100,26 @@
             this.getList()
         },
         methods: {
-            cardReview() {
-                this.$confirm('是否通过审核', '提示', {
-                    confirmButtonText: '确认审核',
-                    cancelButtonText: '拒绝审核',
-                    type: 'warning'
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '审核成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消审核'
-                    });
-                });
+            cardReview(id) {
+                    this.$confirm('是否通过审核', '提示', {
+                            confirmButtonText: '确认审核',
+                            cancelButtonText: '拒绝审核',
+                            type: 'warning'
+                        }).then(() => {
+                        this.$axios.put('/sector/card/checkCard/'+id).then(res=>{
+                            console.log(res.data);
+                            this.$message({
+                                type: 'success',
+                                message: '审核成功!'
+                            });
+                        }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: '已取消审核'
+                            });
+                        });
+                    this.getList();
+            ``});
             },
 
             filterTag(value, row) {
@@ -129,11 +132,10 @@
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
                     this.total = res.data.data.total;
-                    this.page = res.data.data.pages;
+                    // this.page = res.data.data.pages;
                     this.cardData = res.data.data.list;
 
-                    console(this.page);
-                    console(this.total);
+                    console.log(this.total);
 
                 }, function(err) {
                     console.log(err);
@@ -166,12 +168,6 @@
                 this.getList()
             },
 
-            // cardReview(id){
-            //     this.$axios.put('/sector/card/checkCard/'+id).then(res=>{
-            //         console.log(res.data)
-            //         this.getList()
-            //     })
-            // },
             handleSizeChange(val) {
                 this.limit = val;
                 console.log(`每页 ${val} 条`);

@@ -59,7 +59,33 @@
                 }
                 this.tagsList = arr;
             });
-        }
+        },
+        // mounted() {
+        //     window.addEventListener('beforeunload', e => {
+        //         this._beforeUnload_time=new Date().getTime()
+        //         console.log(e)
+        //     })
+        //     window.addEventListener('unload', e => {
+        //         this._gap_time = new Date().getTime() - this._beforeUnload_time;
+        //         if (this._gap_time <= 5) {
+        //             this.$axios.get('/logout');
+        //         }
+        //         console.log(e)
+        //     })
+        // },
+        // methods(){
+        // },
+        // destroyed(){
+        //     window.removeEventListener('beforeunload', e =>{
+        //         this._beforeUnload_time=new Date().getTime()
+        //         console.log(e)
+        //     });
+        //     window.removeEventListener('unload', e => {
+        //         this._beforeUnload_time=new Date().getTime()
+        //         console.log(e)
+        //     });
+        // },
+
     };
 </script>
 <style>
