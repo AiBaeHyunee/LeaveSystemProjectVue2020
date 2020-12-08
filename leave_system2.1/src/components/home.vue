@@ -5,7 +5,7 @@
                 <!--显示登录用户界面-->
                 <el-card shadow="hover" class="mgb20" style="width:220px;height:140px;">
                     <div class="user-info">
-                        <img src="../assets/img/img.jpg" class="user-avator" alt />
+                        <img :src="Photo" class="user-avator" alt />
                         <div class="user-info-cont">
                             <div class="user-info-name">{{account}}</div>
                             <div>{{role}}</div>
@@ -112,6 +112,7 @@
                 showHeader: false,
                 account:'',
                 role:'',
+                Photo:'',
                 todoList: [{
                     date: '2020-04-19 20:00:00',
                     title: '【财务部】2017届毕业生离校请退校园卡通知',
@@ -138,16 +139,35 @@
         },
         methods: {
             roles(){
-                let useraccount =  window.sessionStorage.getItem("clerkAccount");
-                console.log(useraccount);
-                if(useraccount){
-                    this.account = useraccount;
-                }
+                if(window.sessionStorage.getItem("stuType") !=="undefined") {
+                    let useraccount = window.sessionStorage.getItem("stuNumber");
+                    console.log(useraccount);
+                    if (useraccount) {
+                        this.account = useraccount;
+                    }
 
-                let userrole =  window.sessionStorage.getItem("department");
-                console.log(userrole);
-                if(userrole){
-                    this.role = userrole;
+                    let userrole = window.sessionStorage.getItem("stuDept");
+                    console.log(userrole);
+                    if (userrole) {
+                        this.role = userrole;
+                    }
+                    let Photo = window.sessionStorage.getItem("stuPhoto");
+                    console.log(Photo);
+                }
+                else{
+                    let useraccount = window.sessionStorage.getItem("clerkAccount");
+                    console.log(useraccount);
+                    if (useraccount) {
+                        this.account = useraccount;
+                    }
+
+                    let userrole = window.sessionStorage.getItem("department");
+                    console.log(userrole);
+                    if (userrole) {
+                        this.role = userrole;
+                    }
+                    let Photo = window.sessionStorage.getItem("clerkPhoto");
+                    console.log(Photo);
                 }
 
             },

@@ -80,14 +80,27 @@
         },
         methods: {
             username() {
-                let username =  window.sessionStorage.getItem("clerkName");
-                console.log(username);
-                if(username){
-                    this.clerk = username
+                if(window.sessionStorage.getItem("stuType") !=="undefined"){
+                    let username =  window.sessionStorage.getItem("stuName");
+                    console.log(username);
+                    if(username){
+                        this.clerk = username
+                    }
+                    else{
+                        this.clerk = name;
+                    }
+                }else{
+                    let username =  window.sessionStorage.getItem("clerkName");
+                    console.log(username);
+                    if(username){
+                        this.clerk = username
+                    }
+                    else{
+                        this.clerk = name;
+                    }
                 }
-                else{
-                    this.clerk = name;
-                }
+
+
             },
 
             // 用户名下拉菜单选择事件

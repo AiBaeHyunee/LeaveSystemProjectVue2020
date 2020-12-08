@@ -107,6 +107,9 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="用户角色" prop="clerkName">
+                    <el-input v-model="dataForm.department" placeholder="用户角色"></el-input>
+                </el-form-item>
 
                 <el-form-item label="真实姓名" prop="clerkName">
                     <el-input v-model="dataForm.clerkName" placeholder="真实姓名"></el-input>
@@ -229,14 +232,7 @@
                     clerkId: ''
                 },
                 dataForm: {
-                    // clerkID: '',
-                    // clerkName: '',
-                    // clerkPwd: '',
-                    // department: '',
-                    // clerkAccount: '',
-                    // clerkPhoto: '',
-                    // clerkStatus: '',
-                    // clerkEmail: ''
+
                 },
                 tableData: []
             }
@@ -433,12 +429,10 @@
     .search-bar{
         overflow: hidden;
     }
-</style>
-
-<style>
     .tools-bar{
         margin-bottom:20px;
     }
 </style>
+
 
 

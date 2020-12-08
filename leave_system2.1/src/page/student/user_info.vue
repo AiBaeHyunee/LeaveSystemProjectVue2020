@@ -1,6 +1,6 @@
 <template>
     <div>
-        个人信息
+        学生信息页
     </div>
 </template>
 

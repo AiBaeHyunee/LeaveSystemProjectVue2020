@@ -53,6 +53,17 @@
                     window.sessionStorage.setItem("clerkAccount",res.data.clerkAccount)
                     console.log(res.data.department)
                     window.sessionStorage.setItem("department",res.data.department)
+                    console.log(res.data.stuType)
+                    window.sessionStorage.setItem("stuType",res.data.stuType)
+                    console.log(res.data.stuName)
+                    window.sessionStorage.setItem("stuName",res.data.stuName)
+                    console.log(res.data.stuNumber)
+                    window.sessionStorage.setItem("stuNumber",res.data.stuNumber)
+                    console.log(res.data.stuDept)
+                    window.sessionStorage.setItem("stuDept",res.data.stuDept)
+
+                    window.sessionStorage.setItem("stuPhoto",res.data.stuPhoto)
+                    window.sessionStorage.setItem("clerkPhoto",res.data.clerkPhoto)
                     this.$router.push('/home')
                 });
             },

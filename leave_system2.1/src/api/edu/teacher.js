@@ -15,7 +15,7 @@ export default {
     //删除讲师
     deleteTeacherId(id) {
         return request({
-            url: `/admin/user/${id}`,
+            url: '/admin/user/'+id,
             method: 'delete'
           })
     },
