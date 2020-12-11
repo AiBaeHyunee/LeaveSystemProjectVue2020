@@ -64,6 +64,7 @@
 
 <script>
     import bus from '../components/common/bus';
+    import cookie from 'js-cookie';
     export default {
         name: "top-header",
         data() {
@@ -81,22 +82,35 @@
         methods: {
             username() {
                 if(window.sessionStorage.getItem("stuType") !=="undefined"){
-                    let username =  window.sessionStorage.getItem("stuName");
-                    console.log(username);
-                    if(username){
-                        this.clerk = username
+                    if(window.sessionStorage.getItem("stuName") !== null){
+                        let username =  window.sessionStorage.getItem("stuName");
+                        console.log(username);
+                        if(username){
+                            this.clerk = username
+                        }
+                        else{
+                            this.clerk = name;
+                        }
                     }
                     else{
-                        this.clerk = name;
+                        // this.$axios.get('/logout');
+                        // this.$router.push('/login');
+                        this.$message.error("请重新登录")
                     }
+
                 }else{
-                    let username =  window.sessionStorage.getItem("clerkName");
-                    console.log(username);
-                    if(username){
-                        this.clerk = username
-                    }
-                    else{
-                        this.clerk = name;
+                    if(window.sessionStorage.getItem("clerkName") !== null) {
+                        let username = window.sessionStorage.getItem("clerkName");
+                        console.log(username);
+                        if (username) {
+                            this.clerk = username
+                        } else {
+                            this.clerk = name;
+                        }
+                    }else{
+                        // this.$axios.get('/logout');
+                        // this.$router.push('/login');
+                        this.$message.error("请重新登录")
                     }
                 }
 
@@ -112,7 +126,9 @@
                     this.$router.push('/modify_password');
                 }
                 else if (command == 'loginout') {
-                    localStorage.removeItem('ms_username');
+                    window.sessionStorage.clear();
+                    cookie.set('digital_department_system_token','',{domain:'localhost'})
+
                     this.$axios.get('/logout');
                     this.$router.push('/login');
                 }

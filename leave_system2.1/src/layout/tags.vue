@@ -1,9 +1,10 @@
 <template>
     <div class="tags" v-if="showTags">
+
         <ul>
             <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.url)}" :key="index">
                 <router-link :to="item.url" class="tags-li-title">
-                    <span>{{item.title}}</span>
+                    <span @click="saveNavState('/' +item.url)">{{item.title}}</span>
 <!--                    <span>{{item.name}}</span>-->
                 </router-link>
                 <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
@@ -76,7 +77,11 @@
             },
             handleTags(command){
                 command === 'other' ? this.closeOther() : this.closeAll();
+            },
+            saveNavState (activePath) {
+                window.sessionStorage.setItem('activePath', activePath)
             }
+
         },
         computed: {
             showTags() {
@@ -107,7 +112,8 @@
                         break;
                     }
                 }
-            })
+            });
+            this.activePath = window.sessionStorage.getItem('activePath');
         }
     }
 

@@ -5,7 +5,7 @@
                 <!--显示登录用户界面-->
                 <el-card shadow="hover" class="mgb20" style="width:220px;height:140px;">
                     <div class="user-info">
-                        <img :src="Photo" class="user-avator" alt />
+                        <img src="../assets/img/img.jpg" class="user-avator" alt />
                         <div class="user-info-cont">
                             <div class="user-info-name">{{account}}</div>
                             <div>{{role}}</div>
@@ -46,9 +46,9 @@
                 <el-col :span="2.5" style="padding-left: 120px">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-1">
-                            <i class="el-icon-lx-people grid-con-icon"></i>
+                            <i class="el-icon-user grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>个人信息</div>
+                                <el-button @click="userInfo">个人信息</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -56,9 +56,9 @@
                 <el-col :span="2.5" style="padding-left: 120px">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-2">
-                            <i class="el-icon-lx-notice grid-con-icon"></i>
+                            <i class="el-icon-date grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>离校进度</div>
+                                <el-button @click="leaveProgress">离校进度</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -66,9 +66,9 @@
                 <el-col :span="2.5" style="padding-left: 120px">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-3">
-                            <i class="el-icon-lx-goods grid-con-icon"></i>
+                            <i class="el-icon-tickets grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>离校表单</div>
+                                <el-button @click="leaveTable">离校表单</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -76,9 +76,9 @@
                 <el-col :span="2.5" style="padding-left: 120px">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-4">
-                            <i class="el-icon-lx-goods grid-con-icon"></i>
+                            <i class="el-icon-edit-outline grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>修改密码</div>
+                                <el-button @click="reviewPwd">修改密码</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -86,9 +86,9 @@
                 <el-col :span="2.5" style="padding-left: 120px">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-5">
-                            <i class="el-icon-lx-goods grid-con-icon"></i>
+                            <i class="el-icon-user-solid grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div>管理员入口</div>
+                                <el-button @click="manage">管理员入口</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -151,8 +151,8 @@
                     if (userrole) {
                         this.role = userrole;
                     }
-                    let Photo = window.sessionStorage.getItem("stuPhoto");
-                    console.log(Photo);
+                    // let Photo = window.sessionStorage.getItem("stuPhoto");
+                    // console.log(Photo);
                 }
                 else{
                     let useraccount = window.sessionStorage.getItem("clerkAccount");
@@ -177,6 +177,9 @@
                     const date = new Date(now - (6 - index) * 86400000);
                     item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
                 });
+            },
+            userInfo(){
+                this.$router.push('/user_info');
             }
         }
     };

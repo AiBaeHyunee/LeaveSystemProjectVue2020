@@ -1,60 +1,28 @@
-// import axios from 'axios';
-//
-// const service = axios.create({
-//     // process.env.NODE_ENV === 'development' 来判断是否开发环境
-//     // easy-mock服务挂了，暂时不使用了
-//     // baseURL: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-//     timeout: 5000
-// });
-//
-// service.interceptors.request.use(
-//     config => {
-//         return config;
-//     },
-//     error => {
-//         console.log(error);
-//         return Promise.reject();
-//     }
-// );
-//
-// service.interceptors.response.use(
-//     response => {
-//         if (response.status === 200) {
-//             return response.data;
-//         } else {
-//             Promise.reject();
-//         }
-//     },
-//     error => {
-//         console.log(error);
-//         return Promise.reject();
-//     }
-// );
-//
-// export default service;
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
-import { getToken } from '@/utils/auth'
-
+import Cookies from "js-cookie";
+// import { getToken } from '@/utils/auth'
+// import cookie from 'js-cookie'
 // 创建axios实例
 const service = axios.create({
     baseURL: process.env.BASE_API, // api 的 base_url
-    timeout: 5000 // 请求超时时间
+    // baseURL:'http://localhost:8888/',
+    timeout: 50000 // 请求超时时间
 })
 
 // request拦截器
+
 service.interceptors.request.use(
     config => {
         if (store.getters.token) {
-            config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+            // config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+            config.headers['token'] = Cookies.get(window.sessionStorage.getItem('token'))
         }
         return config
     },
     error => {
-        // Do something with request error
-        console.log(error) // for debug
-        Promise.reject(error)
+        return Promise.reject(error);
     }
 )
 

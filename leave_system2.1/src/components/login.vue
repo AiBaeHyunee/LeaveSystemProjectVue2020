@@ -22,11 +22,14 @@
 </template>
 
 <script>
+    import cookie from "js-cookie";
+
+    import menu from '@/api/edu/menu';
     export default{
         data(){
             return {
                 param: {
-                    username: '2018110427',
+                    username: '2018110428',
                     password: '123456',
                 },
                 rules: {
@@ -42,34 +45,72 @@
                 this.$refs.param.validate(async valid => {
                     if (!valid) return;
                     console.log("login")
-                    const {data: res} = await this.$http.post('/login?username=' + this.param.username + '&password=' + this.param.password)
-                    console.log(res)
-                    if (res.code !== 20000) return this.$message.error(res.message)
-                    console.log(res.message)
-                    this.$message.success(res.message)
-                    console.log(res.data.clerkName)
-                    window.sessionStorage.setItem("clerkName",res.data.clerkName)
-                    console.log(res.data.clerkAccount)
-                    window.sessionStorage.setItem("clerkAccount",res.data.clerkAccount)
-                    console.log(res.data.department)
-                    window.sessionStorage.setItem("department",res.data.department)
-                    console.log(res.data.stuType)
-                    window.sessionStorage.setItem("stuType",res.data.stuType)
-                    console.log(res.data.stuName)
-                    window.sessionStorage.setItem("stuName",res.data.stuName)
-                    console.log(res.data.stuNumber)
-                    window.sessionStorage.setItem("stuNumber",res.data.stuNumber)
-                    console.log(res.data.stuDept)
-                    window.sessionStorage.setItem("stuDept",res.data.stuDept)
+                    //const {data: res} = await this.$http.post('/login?username=' + this.param.username + '&password=' + this.param.password)
+                    // console.log(res)
+                    menu.login(this.param.username,this.param.password).then(res =>{//请求成功
+                            //response接口返回的数据
+                        console.log(res)
+                        console.log(res.token)
 
-                    window.sessionStorage.setItem("stuPhoto",res.data.stuPhoto)
-                    window.sessionStorage.setItem("clerkPhoto",res.data.clerkPhoto)
-                    this.$router.push('/home')
+                        if (res.code !== 20000) {
+                            window.sessionStorage.setItem("ISlogin","false")
+                            return this.$message.error(res.message)
+                        }else{
+                            console.log(res.message)
+                            this.$message.success(res.message)
+                            window.sessionStorage.setItem("ISlogin","true")
+                            // console.log(res.data.clerkName)
+                            window.sessionStorage.setItem("clerkName",res.data.clerkName)
+                            // console.log(res.data.clerkAccount)
+                            window.sessionStorage.setItem("clerkAccount",res.data.clerkAccount)
+                            // console.log(res.data.department)
+                            window.sessionStorage.setItem("department",res.data.department)
+                            window.sessionStorage.setItem("clerkPhoto",res.data.clerkPhoto)
+
+                            console.log(res.data.stuType)
+                            window.sessionStorage.setItem("stuType",res.data.stuType)
+                            console.log(res.data.stuName)
+                            window.sessionStorage.setItem("stuName",res.data.stuName)
+                            console.log(res.data.stuNumber)
+                            window.sessionStorage.setItem("stuNumber",res.data.stuNumber)
+                            console.log(res.data.stuDept)
+                            window.sessionStorage.setItem("stuDept",res.data.stuDept)
+
+                            window.sessionStorage.setItem("stuPhoto",res.data.stuPhoto)
+
+                            // message
+                            window.sessionStorage.setItem("token",res.token)
+                            window.sessionStorage.setItem("username",res.data.username)
+
+                            //把token字符串放到cookie中
+                            //第一个参数cookie名称，第二个参数值，第三个参数作用范围
+                            // cookie.set('digital_department_system_token'+sessionStorage.getItem( 'username' ),res.token,{domain:'localhost'})
+                            this.$router.push('/home')
+                        }
+
+                    }
+                    )
                 });
             },
         },
-        mounted () {
-
+        created() {
+            /*区分关闭和刷新，关闭退出登录 start*/
+            window.onload = function() {
+                if (!window.sessionStorage["ISlogin"]) {
+                    cookie.removeToken();
+                    // Cookies.remove("userInfo");
+                    location.reload(); //不能省，强制跳到登陆页
+                }
+                else {
+                    window.sessionStorage.removeItem("ISlogin");
+                }
+            };
+            window.onunload = function() {
+                window.sessionStorage["ISlogin"] = true;
+            };
+            window.onbeforeunload = function() {
+                window.sessionStorage["ISlogin"] = true;
+            };
         },
     }
 </script>

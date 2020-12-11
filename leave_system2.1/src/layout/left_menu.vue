@@ -4,11 +4,13 @@
                      unique-opened
                      class="el-menu-vertical"
                      :collapse="collapse"
-                     :collapse-transition="false" router
+                     :collapse-transition="false"
+                     router
                      :default-active="activePath"
                      background-color="#324157"
                      text-color="#bfcbd9"
-                     active-text-color="#20a0ff">
+                     active-text-color="#20a0ff"
+                     >
                 <!-- 一级菜单  -->
                 <template v-for="item in List">
                     <el-menu-item v-if="(item.children==0)&&!item.hidden" :index="item.url" :key="item.id" @click="saveNavState('/' + item.url)">
@@ -24,7 +26,7 @@
                         <span>{{ item.name}}</span>
                     </template>
                     <!-- 二级菜单 -->
-                    <el-menu-item :index="subItem.url" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.url)">
+                    <el-menu-item :index="subItem.url" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' +subItem.url)">
                         <!-- 导航开启路由模式：
                           将index值作为导航路由 -->
                         <!-- 二级菜单的模板区域 -->
@@ -42,7 +44,7 @@
 </template>
 <script>
     import bus from '../components/common/bus';
-    // import menu from '@/api/edu/menu';
+    import menu from '@/api/edu/menu';
     // import {routes} from '../router';
     export default {
         data(){
@@ -64,16 +66,16 @@
         },
         methods:{
             getMenuList(){
-                // menu.getMenu().then(response =>{//请求成功
-                //     //response接口返回的数据
-                //     this.List = response.data
-                //     console.log(this.List)
-                // })
-                console.log("gotmenu")
-                this.$axios.get('/common/menu').then(res=>{
-                    this.List = res.data.data
+                menu.getMenu().then(response =>{//请求成功
+                    //response接口返回的数据
+                    this.List = response.data
                     console.log(this.List)
                 })
+                // console.log("gotmenu")
+                // this.$axios.get('/common/menu').then(res=>{
+                //     this.List = res.data.data
+                //     console.log(this.List)
+                // })
             },
             // 保存连接的激活地址
             saveNavState (activePath) {

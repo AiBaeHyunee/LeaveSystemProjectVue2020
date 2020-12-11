@@ -4,10 +4,16 @@ export default {
     //current当前页 limit每页记录数 teacherQuery条件对象
     getMenu(params) {
         return request({
-            url: '/common/getmenu',
+            url: '/common/menu',
             method: 'get',
             params
           })
     },
+    login(username, password) {
+        return request({
+            url: '/login?username='+username+'&password='+password,
+            method: 'post',
+        })
+    }
 
 }

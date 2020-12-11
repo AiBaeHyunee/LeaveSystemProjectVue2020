@@ -23,7 +23,6 @@
 
             <div>
                 <el-table
-                        v-loading.body="tableLoading"
                         ref="singleTable"
                         :data="logisticsData"
                         border
@@ -54,13 +53,51 @@
                     <el-table-column label="操作" fixed="right" width="200">
                         <template slot-scope="scope">
                             <div>
-                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.stuNumber)" v-if="scope.row.isLeave==='0'">审核</el-button>
-                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="removeReview(scope.row.stuNumber)" v-if="scope.row.isLeave==='1'">详情</el-button>
+                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="logisticsReview(scope.row.stuNumber)" v-if="scope.row.isLeave==='0'">审核</el-button>
+                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.stuNumber),dialogVisible = true,dialogTitle='用户详情'" v-if="scope.row.isLeave==='1'">详情</el-button>
                             </div>
                         </template>
                     </el-table-column>
 
                 </el-table>
+                <el-dialog
+                        :visible.sync="dialogVisible"
+                        @close="onDialogClose()">
+                    <template slot="title">
+                        <div class='titleSize'>用户详情</div>
+                    </template>
+                    <el-form ref="logisticsData"  :model="logisticsData" label-width="80px" class="f2">
+                        <el-form-item label="学号:" prop="stuNumber" >
+                            <span>{{logisticsData.stuNumber}}</span>
+                            <!--                            <el-input v-model="financeData.stuNumber" placeholder="学号"></el-input>-->
+                        </el-form-item>
+                        <el-divider></el-divider>
+                        <el-form-item label="姓名:" prop="stuName">
+                            <span>{{logisticsData.stuName}}</span>
+                        </el-form-item>
+                        <el-divider></el-divider>
+                        <el-form-item label="院系:" prop="stuDept">
+                            <span>{{logisticsData.stuDept}}</span>
+                        </el-form-item>
+                        <el-divider></el-divider>
+                        <el-form-item label="学历:" prop="stuType">
+                            <span>{{logisticsData.stuType}}</span>
+                        </el-form-item>
+                        <el-divider></el-divider>
+                        <el-form-item label="宿舍名:" prop="expense" >
+                            <span>{{logisticsData.dormName}}</span>
+                        </el-form-item>
+                        <el-divider></el-divider>
+                        <el-form-item label="宿舍号:" prop="expense" >
+                            <span>{{logisticsData.dormNumber}}</span>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogVisible = false">关闭</el-button>
+                        <!--                            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
+                    </div>
+
+                </el-dialog>
                 <div class="pagination-bar">
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -73,18 +110,21 @@
                             :total="total">
                     </el-pagination>
                 </div>
-                <div>
-                    <el-link href="/sector/dorm/export" target="_blank" type="primary">导出</el-link>
-                </div>
+<!--                <div>-->
+<!--&lt;!&ndash;                    <el-link href="/sector/dorm/export" target="_blank" type="primary">导出</el-link>&ndash;&gt;-->
+<!--                </div>-->
             </div>
 
         </el-card>
-
+        <ImportAndExport :exportExceltype="excelobj"></ImportAndExport>
     </div>
 </template>
 
 <script>
+    import teacher from '@/api/edu/teacher'
+    import ImportAndExport from '@/components/common/ImportAndExport'
     export default {
+        components: { ImportAndExport },
         data() {
             return {
                 search:{
@@ -93,31 +133,39 @@
                 total: 0,//总记录数
                 page:1,//当前页
                 limit:10,//每页记录数
-
-                logisticsData: []
+                dialogVisible:false,
+                logisticsData: [],
+                excelobj: 'dorm',
+                extp: this.exportExceltype,
             }
         },
+        props: ["exportExceltype"],
         created() {
             // this.initList()
             this.getList()
         },
         methods: {
-            cardReview() {
+            logisticsReview(id) {
                 this.$confirm('是否通过审核', '提示', {
                     confirmButtonText: '确认审核',
-                    cancelButtonText: '拒绝审核',
+                    cancelButtonText: '取消审核',
                     type: 'warning'
+
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '审核成功!'
+                    this.$axios.post('/sector/dorm/stuNumber/'+id).then(res=>{
+                        console.log(res.data)
+                        this.getList()
+                        this.$message({
+                            type: 'success',
+                            message: '审核成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消审核'
+                        });
                     });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消审核'
-                    });
-                });
+                })
             },
 
             filterTag(value, row) {
@@ -137,18 +185,17 @@
                     console.log(err);
                 })
             },
+            getInfo(id) {
+                teacher.getLogisticsInfo(id)
+                    .then(response => {
+                        this.logisticsData = response.data[0]
+                        console.log(this.logisticsData)
+                    })},
 
-
-            // cardExport() {
-            //     this.$axios.get('/sector/card/export').then(res=>{
-            //         // this.cardData = res.data
-            //         console.log(res.data)
-            //     });
-            // },
             //搜索
             doSearch(){
                 if(this.search.stuNumber!=null){
-                    this.$axios.get('/sector/dorm/stuNumber/'+this.search.stuNumber).then(res=>{
+                    this.$axios.post('/sector/dorm/stuNumber/'+this.search.stuNumber).then(res=>{
                         this.logisticsData = res.data.data
                         console.log(this.logisticsData)
                     })
@@ -164,12 +211,7 @@
                 this.getList()
             },
 
-            // logisticsReview(id){
-            //     this.$axios.put('/sector/logistics/checklogistics/'+id).then(res=>{
-            //         console.log(res.data)
-            //         this.getList()
-            //     })
-            // },
+
             handleSizeChange(val) {
                 this.limit = val;
                 console.log(`每页 ${val} 条`);
@@ -177,7 +219,10 @@
             handleCurrentChange(val) {
                 this.page = val;
                 console.log(`当前页: ${val}`);
-            }
+            },
+            onDialogClose() {
+                this.$refs.logistics.resetFields()
+            },
 
         }
 
@@ -194,11 +239,22 @@
     .search-bar{
         overflow: hidden;
     }
+    .f2{
+        font-size: 20px;
+        text-align:center;
+        font-weight:bold;
+
+        border: 1px solid #dcdfe6 !important;
+    }
 </style>
 
 <style>
     .tools-bar{
         margin-bottom:20px;
+    }
+    .titleSize{
+        font-size: 30px;
+        text-align:center;
     }
 </style>
 

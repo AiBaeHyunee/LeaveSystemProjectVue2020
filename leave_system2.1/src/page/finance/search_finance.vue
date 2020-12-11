@@ -23,7 +23,7 @@
 
             <div>
                 <el-table
-                        v-loading.body="tableLoading"
+
                         ref="singleTable"
                         :data="financeData"
                         border
@@ -50,14 +50,53 @@
                     </el-table-column>
                     <el-table-column label="操作" fixed="right" width="200">
                         <template slot-scope="scope">
-                            <div>
+                            <div >
                                 <el-button type="primary" size="mini" icon ="el-icon-edit" @click="financeReview(scope.row.stuNumber)" v-if="scope.row.financeStatus==='0'">审核</el-button>
-                                <el-button type="danger" size="mini" icon ="el-icon-delete" @click="removeReview(scope.row.stuNumber)" v-if="scope.row.financeStatus==='1'">详情</el-button>
+                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.stuNumber),dialogVisible = true,dialogTitle='用户详情'" >详情</el-button>
+<!--                                v-if="scope.row.financeStatus==='1'"-->
+                                <!--                                <el-button type="text" size="small" @click="getInfo(scope.row.clerkID),dialogVisible = true,dialogTitle='修改用户'">详情</el-button>-->
                             </div>
                         </template>
-                    </el-table-column>
 
+                    </el-table-column>
                 </el-table>
+                    <el-dialog
+
+                            :visible.sync="dialogVisible"
+                            @close="onDialogClose()">
+                        <template slot="title">
+                            <div class='titleSize'>用户详情</div>
+                        </template>
+                        <el-form ref="financeData"  :model="financeData" label-width="80px" class="f2">
+                        <el-form-item label="学号:" prop="stuNumber" >
+                            <span>{{financeData.stuNumber}}</span>
+<!--                            <el-input v-model="financeData.stuNumber" placeholder="学号"></el-input>-->
+                        </el-form-item>
+                            <el-divider></el-divider>
+                            <el-form-item label="姓名:" prop="stuName">
+                                <span>{{financeData.stuName}}</span>
+                            </el-form-item>
+                            <el-divider></el-divider>
+                            <el-form-item label="院系:" prop="stuDept">
+                                <span>{{financeData.stuDept}}</span>
+                            </el-form-item>
+                            <el-divider></el-divider>
+                            <el-form-item label="学历:" prop="stuType">
+                                <span>{{financeData.stuType}}</span>
+                            </el-form-item>
+                            <el-divider></el-divider>
+                            <el-form-item label="应退款:" prop="expense" >
+                                <span>{{financeData.expense}}</span>
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="dialogVisible = false">关闭</el-button>
+<!--                            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
+                        </div>
+
+                    </el-dialog>
+
+
                 <div class="pagination-bar">
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -69,54 +108,99 @@
                             :total="total">
                     </el-pagination>
                 </div>
-                <div>
-<!--                    <el-button type="text" size="small" @click="cardExport">导出</el-button>-->
-                </div>
+<!--                <div>-->
+<!--&lt;!&ndash;                    <el-button type="text" size="small" @click="exportExcel()">导出</el-button>&ndash;&gt;-->
+<!--                </div>-->
             </div>
 
         </el-card>
-
+        <ImportAndExport :exportExceltype="excelobj"></ImportAndExport>
     </div>
 </template>
 
 <script>
+    import ImportAndExport from '@/components/common/ImportAndExport'
+    import teacher from '@/api/edu/teacher'
     export default {
+        components: { ImportAndExport },
         data() {
             return {
-                search:{
-                    stuNumber:'',
+                search: {
+                    stuNumber: '',
+
                 },
                 total: 0,//总记录数
-                page:1,//当前页
-                limit:10,//每页记录数
-
+                page: 1,//当前页
+                limit: 5,//每页记录数
+                dialogVisible: false,
                 financeData: [],
+                excelobj: 'finance',
+                extp: this.exportExceltype,
             }
         },
+        props: ["exportExceltype"],
         created() {
             // this.initList()
             this.getList()
         },
         methods: {
             //获取
-            getList(page =1) {
+            getList(page = 1) {
+
                 this.page = page
-                this.$axios.get('/sector/finance/findAllByPage?start=' +this.page+'&size=' + this.limit).then(res=>{
+                this.$axios.get('/sector/finance/findAllByPage?start=' + this.page + '&size=' + this.limit).then(res => {
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
                     this.total = res.data.data.total;
-
+                    this.page = res.data.data.pages;
                     this.financeData = res.data.data.list;
 
                     console.log(this.total);
 
-                }, function(err) {
+                }, function (err) {
                     console.log(err);
                 })
             },
+            getInfo(id) {
+                teacher.getFinanceInfo(id)
+                    .then(response => {
+                        this.financeData = response.data[0]
+                        console.log(this.financeData)
+                    })
+                // this.$axios.get('/sector/finance/'+id)
+                //     .then(res=>{
+                //         //得到一个PageInfo对象
+                //         //将PageInfo中的total赋值给当前的total
+                //         this.financeData = res.data.data
+                //         console.log(this.financeData);
+                // })
+            },
+
+            financeReview(id) {
+                this.$confirm('是否通过审核', '提示', {
+                    confirmButtonText: '确认审核',
+                    cancelButtonText: '取消审核',
+                    type: 'warning'
+                }).then(() => {
+
+                    this.$http.post('/sector/finance/' + id).then(res => {
+                        console.log(res.data);
+                        this.$message({
+                            type: 'success',
+                            message: '审核成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消审核'
+                        });
+                    });
+                    this.getList();
+                });
+            },
 
             filterTag(value, row) {
-                return row.cardStatus === value;
+                return row.financeStatus === value;
             },
 
             // cardExport() {
@@ -126,9 +210,9 @@
             //     });
             // },
             //搜索
-            doSearch(){
-                if(this.search.stuNumber!=null){
-                    this.$axios.get('/sector/finance/'+this.search.stuNumber).then(response=>{
+            doSearch() {
+                if (this.search.stuNumber != null) {
+                    this.$axios.get('/sector/finance/' + this.search.stuNumber).then(response => {
                         this.financeData = response.data.data
                         console.log(this.financeData)
                     })
@@ -136,7 +220,7 @@
                     //     this.financeData = response.data
                     //     console.log(this.financeData)
                     // });
-                }else{
+                } else {
                     this.getList()
                 }
             },
@@ -156,10 +240,12 @@
             handleCurrentChange(val) {
                 this.page = val;
                 console.log(`当前页: ${val}`);
-            }
+            },
+            onDialogClose() {
+                this.$refs.financeData.resetFields()
+            },
 
         }
-
     }
 </script>
 
@@ -170,6 +256,14 @@
     .fl{
         float:left;
     }
+    .f2{
+        font-size: 20px;
+        text-align:center;
+        font-weight:bold;
+
+        border: 1px solid #dcdfe6 !important;
+    }
+
     .search-bar{
         overflow: hidden;
     }
@@ -179,6 +273,10 @@
     .tools-bar{
         margin-bottom:20px;
     }
+.titleSize{
+    font-size: 30px;
+    text-align:center;
+}
 </style>
 
 
