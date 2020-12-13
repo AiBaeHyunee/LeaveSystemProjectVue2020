@@ -28,7 +28,7 @@
 
         <div>
             <el-table
-                    v-loading.body="tableLoading"
+                    v-loading="tableLoading"
                     ref="singleTable"
                     :data="tableData"
                     border
@@ -154,7 +154,7 @@
                 totalRecord: 0,
                 page:1,//当前页
                 pageSize: 10,
-                tableLoading: false,
+                tableLoading: true,
                 dialogVisible: false,
                 dialogTitle: '新增用户',
                 roles: [
@@ -251,6 +251,7 @@
                         console.log(this.tableData)
                         console.log(this.totalRecord)
                     })
+                this.tableLoading=false
                 // this.$axios.get('/admin/user').then(res=>{
                 //     this.tableData = res.data
                 //     this.totalRecord = res.data.length

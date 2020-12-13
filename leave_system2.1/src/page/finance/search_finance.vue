@@ -45,7 +45,6 @@
                             <el-tag :type="scope.row.financeStatus === '1' ? 'success' : 'danger'" disable-transitions>
                                 {{scope.row.financeStatus === "1" ?'已通过':'未通过'}}
                             </el-tag>
-
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" fixed="right" width="200">
