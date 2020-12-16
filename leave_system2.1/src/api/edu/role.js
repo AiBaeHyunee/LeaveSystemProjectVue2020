@@ -17,7 +17,21 @@ export default {
           method: 'get'
         })
       },
-
+    getInfo(id,List) {
+        return request({
+            url: '/admin/role/authority/'+id,
+            method: 'get',
+            data:List
+        })
+    },
+    addRole(data) {
+        return request({
+            url: '/admin/role',
+            method: 'post',
+            data:data
+            // params
+        })
+    },
       save(role) {
         return request({
           url: `${api_name}/save`,

@@ -44,6 +44,7 @@ const search_logistics = () =>import("@/page/logistics/search_logistics");
 // const office = () =>import("@/page/office/office");
 const review_progress = () =>import("@/page/office/review_progress");
 const search_progress = () =>import("@/page/office/search_progress");
+const review_message = () =>import("@/page/office/review_message");
 
 /*管理员功能*/
 // const manager = () =>import("@/page/manager/manager");
@@ -407,6 +408,13 @@ export const  routes =[
                         meta: { title: '进度查询'},
                         icon:'el-icon-search',
                         component:search_progress
+                    },
+                    {
+                        path: 'review_message',
+                        hidden:false,
+                        meta: { title: '未读消息'},
+                        icon:'el-icon-search',
+                        component:review_message
                     },
                 ]
             },

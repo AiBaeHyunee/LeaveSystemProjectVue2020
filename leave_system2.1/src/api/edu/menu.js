@@ -53,11 +53,12 @@ export default {
             method:'get'
         })
     },
-    doAssign(roleId) {
+    doAssign(roleId,data) {
         return request({
-            url: '/admin/role/authority/',
+            url: '/admin/authority/update/'+roleId,
             method:'post',
-            params: {roleId}
+            // params: {roleId}
+            data:data
         })
     }
 

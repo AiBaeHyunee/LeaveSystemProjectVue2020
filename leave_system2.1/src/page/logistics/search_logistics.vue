@@ -20,6 +20,42 @@
                     <el-button type="primary" icon="el-icon-search" @click="doSearch">查询</el-button>
                 </div>
             </div>
+            <div class="search-bar" >
+                <el-form :inline="true" class="fl">
+                    <el-input style="display: none;"></el-input>
+                    <el-form-item label="学院："></el-form-item>
+                    <el-select v-model="search.Dept" filterable clearable placeholder="请选择学院">
+                        <el-option
+                                v-for="item in Deptoptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <el-form-item label="学历："></el-form-item>
+                    <el-select v-model="search.Type" filterable clearable placeholder="请选择学历">
+                        <el-option
+                                v-for="item in Typeoptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <el-form-item label="状态："></el-form-item>
+                    <el-select v-model="search.Status" filterable clearable placeholder="请选择状态">
+                        <el-option
+                                v-for="item in Statusoptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form>
+                <div class="f1">
+                    <el-button type="text" @click="handleReset">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="doTypeSearch">查询</el-button>
+                </div>
+            </div>
 
             <div>
                 <el-table
@@ -127,8 +163,23 @@
         components: { ImportAndExport },
         data() {
             return {
+                Deptoptions: [
+                    {value: '商学院', label: '商学院'},
+                    {value: '计算机科学学院', label: '计算机科学学院'},
+                ],
+                Typeoptions: [
+                    {value: '本科生', label: '本科生'},
+                    {value: '研究生', label: '研究生'},
+                ],
+                Statusoptions: [
+                    {value: '1', label: '已审核'},
+                    {value: '0', label: '未审核'},
+                ],
                 search:{
                     stuNumber:'',
+                    Type: '',
+                    Dept: '',
+                    Status: '',
                 },
                 total: 0,//总记录数
                 page:1,//当前页
@@ -192,11 +243,46 @@
                         console.log(this.logisticsData)
                     })},
 
+            //多条件搜索
+            doTypeSearch(){
+                if(this.search.Type!=null&&this.search.Status!=null&&this.search.Dept!=null){
+                    this.$axios.get('/sector/dorm/selectAllByPageAndType/' +this.page+'/'+ this.limit+'?isLeave='+this.search.Status+'&stuDept='+this.search.Dept+'&stuType='+this.search.Type).then(res=>{
+                        this.total = res.data.data.total;
+                        // this.page = res.data.data.pages;
+                        this.logisticsData = res.data.data.list;
+                        if (this.logisticsData!=null){
+                            this.$message({
+                                type: 'success',
+                                message:res.data.message
+                            })}
+                        else {this.$message({
+                            type: 'error',
+                            message:res.data.message
+                        })}
+                        console.log(res.data.message)
+                        console.log(this.logisticsData)
+                    })
+                }else{
+                    this.getList()
+                }
+            },
+
             //搜索
             doSearch(){
                 if(this.search.stuNumber!=null){
-                    this.$axios.post('/sector/dorm/stuNumber/'+this.search.stuNumber).then(res=>{
+                    this.$axios.get('/sector/dorm/stuNumber/'+this.search.stuNumber).then(res=>{
                         this.logisticsData = res.data.data
+                        if (this.logisticsData!=null){
+                            this.$message({
+                                type: 'success',
+                                message:res.data.message
+                            })}
+                        else {this.$message({
+                            type: 'error',
+                            message:res.data.message
+                        })}
+                        console.log(res.data.message)
+
                         console.log(this.logisticsData)
                     })
                 }else{

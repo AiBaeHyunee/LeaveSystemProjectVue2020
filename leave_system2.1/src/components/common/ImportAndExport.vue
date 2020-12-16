@@ -27,6 +27,8 @@ export default {
                 this.extpurl = "/sector/dorm/export";
             }else if (this.extp == "library") {
                 this.extpurl = "/sector/library/export";
+            }else if (this.extp == "office") {
+                this.extpurl = "/sector/edu/export";
             }
 
             this.$axios

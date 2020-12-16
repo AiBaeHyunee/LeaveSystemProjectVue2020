@@ -150,6 +150,16 @@
                 if(this.search.stuNumber!=null){
                     this.$axios.get('/sector/dorm/stuNumber/'+this.search.stuNumber).then(res=>{
                         this.libData = res.data.data
+                        if (this.libData!=null){
+                            this.$message({
+                                type: 'success',
+                                message:res.data.message
+                            })}
+                        else {this.$message({
+                            type: 'error',
+                            message:res.data.message
+                        })}
+                        console.log(res.data.message)
                         console.log(this.libData)
                     })
                 }else{
