@@ -22,6 +22,8 @@ import './assets/css/icon.css';
 import SIdentify from './identify';
 import cookie from "js-cookie";
 
+import * as echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 
 Vue.config.productionTip = false
 

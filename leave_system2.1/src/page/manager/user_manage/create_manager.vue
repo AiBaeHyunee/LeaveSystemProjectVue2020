@@ -12,8 +12,8 @@
         <div class="search-bar">
             <el-form :inline="true" class="fl">
                 <el-input style="display: none;"></el-input>
-                <el-form-item label="用户ID">
-                    <el-input v-model="search.clerkId" placeholder="用户ID" ></el-input>
+                <el-form-item label="用户账号">
+                    <el-input v-model="search.clerkAccount" placeholder="用户账号" ></el-input>
                 </el-form-item>
             </el-form>
             <div class="fl">
@@ -56,10 +56,11 @@
                         </el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column prop="clerkID" label="ID" min-width="120" sortable></el-table-column>
+<!--                <el-table-column prop="clerkID" label="ID" min-width="120" sortable></el-table-column>-->
+                <el-table-column prop="clerkAccount" label="用户账号" min-width="120" sortable></el-table-column>
                 <el-table-column prop="clerkName" label="真实姓名" min-width="120"  sortable></el-table-column>
                 <el-table-column prop="department"  min-width="210" label="所属部门"></el-table-column>
-                <el-table-column prop="clerkAccount" label="用户账号" min-width="120" sortable></el-table-column>
+
                 <el-table-column label="用户状态" min-width="120" sortable>
                     <template slot-scope="scope">
                         {{scope.row.clerkStatus===1?'离校':'在校'}}
@@ -90,51 +91,46 @@
         </div>
 
         <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" @close="onDialogClose()">
-            <el-form ref="dataForm" :rules="rules" :model="dataForm" label-width="80px">
-                <el-form-item label="用户账号" prop="clerkAccount">
-<!--                    <template v-if="dialogTitle=='修改用户'">{{dataForm.clerkAccount}}</template>-->
-<!--                    <el-input v-else v-model="dataForm.clerkAccount" placeholder="clerkAccount"></el-input>-->
-                    <el-input v-model="dataForm.clerkAccount" placeholder="用户账号"></el-input>
-                </el-form-item>
-                <!--                    multiple-->
-                <el-form-item label="用户角色" prop="roleIds">
-                    <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;"  multiple>
-                        <el-option
-                                v-for="item in roles"
-                                :key="item.index"
-                                :label="item.name"
-                                :value="item.name">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-<!--                <el-form-item label="用户角色" prop="clerkName">-->
-<!--                    <el-input v-model="dataForm.department" placeholder="用户角色"></el-input>-->
-<!--                </el-form-item>-->
+        <el-form ref="dataForm" :rules="rules" :model="dataForm" label-width="80px">
+            <el-form-item label="用户账号" prop="clerkAccount">
+                <!--                    <template v-if="dialogTitle=='修改用户'">{{dataForm.clerkAccount}}</template>-->
+                <!--                    <el-input v-else v-model="dataForm.clerkAccount" placeholder="clerkAccount"></el-input>-->
+                <el-input v-model="dataForm.clerkAccount" placeholder="用户账号"></el-input>
+            </el-form-item>
+            <!--                    multiple-->
+            <el-form-item label="用户角色" prop="roleIds">
+                <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;"  multiple>
+                    <el-option
+                            v-for="item in roles"
+                            :key="item.index"
+                            :label="item.name"
+                            :value="item.name">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <!--                <el-form-item label="用户角色" prop="clerkName">-->
+            <!--                    <el-input v-model="dataForm.department" placeholder="用户角色"></el-input>-->
+            <!--                </el-form-item>-->
 
-                <el-form-item label="真实姓名" prop="clerkName">
-                    <el-input v-model="dataForm.clerkName" placeholder="真实姓名"></el-input>
-                </el-form-item>
+            <el-form-item label="真实姓名" prop="clerkName">
+                <el-input v-model="dataForm.clerkName" placeholder="真实姓名"></el-input>
+            </el-form-item>
 
-                <el-form-item label="电子邮箱" prop="clerkEmail">
-                    <el-input v-model="dataForm.clerkEmail" placeholder="电子邮箱"></el-input>
-                </el-form-item>
+            <el-form-item label="电子邮箱" prop="clerkEmail">
+                <el-input v-model="dataForm.clerkEmail" placeholder="电子邮箱"></el-input>
+            </el-form-item>
 
-                <el-form-item label="用户密码" prop="clerkPwd">
-                    <el-input v-model="dataForm.clerkPwd" placeholder="密码"></el-input>
-                </el-form-item>
-<!--                <el-form-item label="用户状态" prop="clerkStatus">-->
-<!--                    <el-select v-model="dataForm.clerkStatus" placeholder="请选择" style="width: 100%;">-->
-<!--                        <el-option :value="0" label="离校"/>-->
-<!--                        <el-option :value="1" label="在校"/>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="info" @click="saveOrUpdate" v-if="dialogTitle=='修改用户'">保存</el-button>
-                <el-button type="primary" @click="saveOrUpdate" v-else>立即创建</el-button>
-            </div>
-        </el-dialog>
+            <el-form-item label="用户密码" prop="clerkPwd" v-if="dialogTitle=='新增用户'">
+                <el-input v-model="dataForm.clerkPwd" placeholder="密码"></el-input>
+            </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="info" @click="saveOrUpdate" v-if="dialogTitle=='修改用户'">保存</el-button>
+            <el-button type="primary" @click="saveOrUpdate" v-else>立即创建</el-button>
+        </div>
+    </el-dialog>
 
     </el-card>
 
@@ -149,7 +145,7 @@
         data() {
             return {
                 search:{
-                    clerkId:'',
+                    clerkAccount:'',
                 },
                 totalRecord: 0,
                 page:1,//当前页
@@ -252,17 +248,12 @@
                         console.log(this.totalRecord)
                     })
                 this.tableLoading=false
-                // this.$axios.get('/admin/user').then(res=>{
-                //     this.tableData = res.data
-                //     this.totalRecord = res.data.length
-                //     console.log(this.tableData)
-                //     console.log(this.totalRecord)
-                // })
+
             },
             //搜索
             doSearch(){
-                if(this.search.clerkId!=null){
-                    teacher.doUserSearch(this.search.clerkId).then(response => {
+                if(this.search.clerkAccount!=null){
+                    teacher.doUserSearch(this.search.clerkAccount).then(response => {
                         this.tableData = response.data
                         console.log(this.tableData)
                     });

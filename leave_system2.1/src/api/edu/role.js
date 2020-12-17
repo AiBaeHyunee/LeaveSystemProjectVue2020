@@ -40,9 +40,9 @@ export default {
         })
       },
     //搜索
-    doRoleSearch(id,List){
+    doRoleSearch(name,List){
         return request({
-            url:'/admin/role/'+id,
+            url:'/admin/role/name/'+name,
             method:'get',
             data:List
         })

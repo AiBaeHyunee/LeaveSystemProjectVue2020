@@ -12,8 +12,8 @@
             <div class="search-bar">
                 <el-form :inline="true" class="fl">
                     <el-input style="display: none;"></el-input>
-                    <el-form-item label="角色ID">
-                        <el-input v-model="search.id" placeholder="角色ID" ></el-input>
+                    <el-form-item label="角色名称">
+                        <el-input v-model="search.name" placeholder="角色名称" ></el-input>
                     </el-form-item>
                 </el-form>
                 <div class="fl">
@@ -150,7 +150,7 @@
                 limit: 10, // 每页记录数
                 searchObj: {}, // 查询表单对象
                 search:{
-                    id:'',
+                    name:'',
                 },
 
                 multipleSelection: [] // 批量选择中选择的记录列表
@@ -300,8 +300,8 @@
 
             //搜索菜单
             doSearch(){
-                if(this.search.id!=null){
-                    roleApi.doRoleSearch(this.search.id).then(response => {
+                if(this.search.name!=null){
+                    roleApi.doRoleSearch(this.search.name).then(response => {
                         this.list = response.data
                         console.log(this.list)
                         // 数据加载并绑定成功
@@ -314,7 +314,7 @@
             //重置
             handleReset() {
                 this.search = {
-                    id: ''
+                    name: ''
                 }
                 // this.doSearch()
                 this.fetchData()

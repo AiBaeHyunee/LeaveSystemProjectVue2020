@@ -10,8 +10,8 @@
             <div class="search-bar">
                 <el-form :inline="true" class="fl">
                     <el-input style="display: none;"></el-input>
-                    <el-form-item label="用户ID">
-                        <el-input v-model="search.authorityId" placeholder="菜单ID" ></el-input>
+                    <el-form-item label="菜单名称">
+                        <el-input v-model="search.name" placeholder="菜单名称" ></el-input>
                     </el-form-item>
                 </el-form>
                 <div class="fl">
@@ -121,7 +121,7 @@
             return {
                 listLoading: true,
                 search:{
-                    authorityId:'',
+                    name:'',
                 },
                 filterText: '',
                 menuList: [],
@@ -173,8 +173,8 @@
             },
             //搜索菜单
             doSearch(){
-                if(this.search.authorityId!=null){
-                    menu.doMenuSearch(this.search.authorityId).then(response => {
+                if(this.search.name!=null){
+                    menu.doMenuSearch(this.search.name).then(response => {
                         this.menuList = response.data
                         console.log(this.menuList)
                     });
@@ -185,7 +185,7 @@
             //重置
             handleReset() {
                 this.search = {
-                    authorityId: ''
+                    name: ''
                 }
                 this.doSearch()
             },

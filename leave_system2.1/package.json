@@ -24,7 +24,8 @@
     "vue-router": "^3.0.7",
     "vue-schart": "^2.0.0",
     "vuex": "^3.5.1",
-    "webpack-merge": "latest"
+    "webpack-merge": "latest",
+    "echarts": "^5.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.8",

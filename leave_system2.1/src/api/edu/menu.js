@@ -22,9 +22,9 @@ export default {
         })
     },
     //搜索
-    doMenuSearch(ID,List){
+    doMenuSearch(name,List){
         return request({
-            url:'/admin/authority/'+ID,
+            url:'/admin/authority/name'+name,
             method:'get',
             data:List
         })

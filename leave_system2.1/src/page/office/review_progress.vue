@@ -52,13 +52,32 @@
                 <mail :tableData="tableData" :tableStyle="{ width:'600px' }" :class="highligt(tableData.value)"></mail>
             </div>
             <div style="margin-left: 500px">
-                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="eduReview()" v-if="this.count === 5 ">审核</el-button>
-                <router-link :to="'/sector/office/search_progress'" style="margin-left: 200px">
+                <el-button type="success" size="mini" icon ="el-icon-edit" @click="eduReview()" v-if="this.count === 4 ">审核</el-button>
+                <el-button type="primary" size="mini" icon ="el-icon-edit"  style="margin-left: 100px" @click="sendMsg()" v-if="this.count === 4 ">反馈</el-button>
+                <router-link :to="'/sector/office/search_progress'" style="margin-left: 100px">
                     <el-button type="info" size="mini" icon="el-icon-refresh-left">返回</el-button>
                 </router-link>
             </div>
 
         </el-card>
+
+        <el-dialog title="拒绝信息" :visible.sync="dialogVisible" @close="onDialogClose()">
+            <el-form ref="dataForm" :model="dataForm" label-width="80px">
+                <el-form-item label="标题" prop="title">
+                    <el-input v-model="dataForm.title" placeholder="请输入标题"></el-input>
+                </el-form-item>
+
+                <el-form-item label="内容" prop="content">
+                    <el-input v-model="dataForm.content" placeholder="请输入拒绝理由"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="info" @click="sendMsg">发送</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -76,17 +95,40 @@
                 stuInfo:[],
                 number:1,
                 count:0,
-            }
+                dialogVisible:false,
+                dataForm:{},
+              }
         },
         created() {
             this.searchEdu()
         },
         methods:{
+            //高光文字
             highligt(value){
               if(value === '未审核'){
                   return 'red-color';
               }
               return ;
+            },
+            //发送拒绝消息
+            onDialogClose() {
+                this.dataForm.content = []
+                this.$refs.dataForm.resetFields()
+            },
+            sendMsg() {
+                this.dialogVisible = true,
+                this.$axios.post('/sector/edu/checkRefuse/' + window.sessionStorage.getItem("edustuNumber"),this.dataForm)
+                    .then(response => {//添加成功
+                        //提示信息
+                        this.$message({
+                            type: 'success',
+                            message: '发送成功!'
+                        });
+                        //回到列表页面 路由跳转
+                        this.dialogVisible = false
+                        this.searchEdu()
+                        console.log(response);
+                    })
             },
             init(){
                 for(let i = 0;i <=4 ;i++){
@@ -146,6 +188,7 @@
                             type: 'info',
                             message: '已取消审核'
                         });
+
                     });
                     this.searchEdu()
                 });

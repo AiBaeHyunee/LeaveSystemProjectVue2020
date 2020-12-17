@@ -144,7 +144,7 @@ export const  routes =[
                 ]
             },
             {
-                path:'/manage',
+                path:'/admin',
                 hidden:false,
                 // name:'管理员功能',
                 meta: { title: '管理员功能'},
@@ -178,7 +178,7 @@ export const  routes =[
                 ]
             },
             {
-                path: '/manager',
+                path: '/admin',
                 hidden:false,
                 // name:'用户管理',
                 meta: { title: '用户管理'},

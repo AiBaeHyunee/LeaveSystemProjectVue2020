@@ -124,7 +124,7 @@
                 },
                 total: 0,//总记录数
                 page:1,//当前页
-                limit:10,//每页记录数
+                limit:15,//每页记录数
 
                 dialogVisible:false,
                 stuData:[],

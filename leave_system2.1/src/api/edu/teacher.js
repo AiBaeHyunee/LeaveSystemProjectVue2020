@@ -68,9 +68,9 @@ export default {
           })
     },
     //搜索
-    doUserSearch(clerkID,List){
+    doUserSearch(clerkAccount,List){
         return request({
-            url:'/admin/user/'+clerkID,
+            url:'/admin/user/account/'+clerkAccount,
             method:'get',
             data:List
         })

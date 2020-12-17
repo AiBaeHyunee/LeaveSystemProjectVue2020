@@ -67,9 +67,7 @@
                             :total="total">
                     </el-pagination>
                 </div>
-                <div>
-                    <el-link href="/sector/dorm/export" target="_blank" type="primary">导出</el-link>
-                </div>
+
             </div>
 
         </el-card>
