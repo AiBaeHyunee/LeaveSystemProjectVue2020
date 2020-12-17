@@ -31,20 +31,22 @@ export default {
     },
     removeById(id) {
         return request({
-            url: '/common/menu'+id,
+            url: '/admin/authority/delete/'+id,
             method:'post'
         })
     },
     saveLevelOne(menu) {
         return request({
-            url: '/common/menu'+menu,
-            method:'post'
+            url: '/admin/authority',
+            method:'post',
+            data:menu,
         })
     },
-    update(menu) {
+    update(id,menu) {
         return request({
-            url: '/common/menu'+menu,
-            method:'post'
+            url: '/admin/authority/update/'+id,
+            method:'post',
+            data:menu,
         })
     },
     toAssign(roleId) {
@@ -58,6 +60,13 @@ export default {
             url: '/admin/authority/update/'+roleId,
             method:'post',
             // params: {roleId}
+            data:data
+        })
+    },
+    SendMessage(id,data) {
+        return request({
+            url: '/sector/edu/checkRefuse/'+id,
+            method:'post',
             data:data
         })
     }

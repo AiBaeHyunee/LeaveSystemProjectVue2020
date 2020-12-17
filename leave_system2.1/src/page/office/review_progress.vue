@@ -53,7 +53,7 @@
             </div>
             <div style="margin-left: 500px">
                 <el-button type="success" size="mini" icon ="el-icon-edit" @click="eduReview()" v-if="this.count === 4 ">审核</el-button>
-                <el-button type="primary" size="mini" icon ="el-icon-edit"  style="margin-left: 100px" @click="sendMsg()" v-if="this.count === 4 ">反馈</el-button>
+                <el-button type="primary" size="mini" icon ="el-icon-edit"  style="margin-left: 100px" @click=" dialogVisible = true" v-if="this.count === 4 ">反馈</el-button>
                 <router-link :to="'/sector/office/search_progress'" style="margin-left: 100px">
                     <el-button type="info" size="mini" icon="el-icon-refresh-left">返回</el-button>
                 </router-link>
@@ -74,7 +74,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="info" @click="sendMsg">发送</el-button>
+                <el-button type="info" @click="sendMsg()">发送</el-button>
             </div>
         </el-dialog>
 
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+    import menu from '@/api/edu/menu'
     export default {
         data() {
             return {
@@ -115,20 +116,31 @@
                 this.dataForm.content = []
                 this.$refs.dataForm.resetFields()
             },
+            //发送拒绝信息
             sendMsg() {
-                this.dialogVisible = true,
-                this.$axios.post('/sector/edu/checkRefuse/' + window.sessionStorage.getItem("edustuNumber"),this.dataForm)
-                    .then(response => {//添加成功
-                        //提示信息
+                menu.SendMessage(window.sessionStorage.getItem("edustuNumber"),this.dataForm).then(response => {
+                    if(response.success){
                         this.$message({
-                            type: 'success',
-                            message: '发送成功!'
-                        });
-                        //回到列表页面 路由跳转
+                            type:'success',
+                            message:'拒绝成功'
+                        })
                         this.dialogVisible = false
                         this.searchEdu()
                         console.log(response);
-                    })
+                    }
+                })
+                // this.$axios.post('/sector/edu/checkRefuse/' + window.sessionStorage.getItem("edustuNumber"))
+                //     .then(response => {//添加成功
+                //         //提示信息
+                //         this.$message({
+                //             type: 'success',
+                //             message: '发送成功!'
+                //         });
+                //         //回到列表页面 路由跳转
+                //         this.dialogVisible = false
+                //         this.searchEdu()
+                //         console.log(response);
+                //     })
             },
             init(){
                 for(let i = 0;i <=4 ;i++){

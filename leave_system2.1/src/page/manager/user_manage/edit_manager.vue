@@ -3,7 +3,7 @@
         <div class="content-title-box">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item >用户管理</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/manager/edit_manager' }">角色管理</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/admin/edit_manager' }">角色管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <el-card class="box-card">
@@ -68,7 +68,7 @@
 
                 <el-table-column label="操作" fixed="right" min-width="180" >
                     <template slot-scope="scope">
-                        <router-link :to="'/manager/role'">
+                        <router-link :to="'/admin/role'">
                             <el-button type="success" size="mini" icon="el-icon-info" @click="removeReview(scope.row.id)">查看权限</el-button>
                         </router-link>
 <!--                        <router-link :to="'/manager/edit_rolefrom'">-->
@@ -231,7 +231,7 @@
                             type:'success',
                             message:'保存成功'
                         })
-                        this.$router.push({ path: '/manager/grant_manager' })
+                        this.$router.push({ path: '/admin/grant_manager' })
                     }
                 })
             },

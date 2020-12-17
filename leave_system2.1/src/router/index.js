@@ -34,6 +34,8 @@ const search_finance = () =>import("@/page/finance/search_finance");
 const review_library = () =>import("@/page/library/review_library");
 const search_library = () =>import("@/page/library/search_library");
 const statistical_data = () =>import("@/page/library/statistical_data");
+const review_noticel = () =>import("@/page/library/review_notice");
+
 
 /*后勤部*/
 // const logistics = () =>import("@/page/logistics/logistics");
@@ -44,7 +46,7 @@ const search_logistics = () =>import("@/page/logistics/search_logistics");
 // const office = () =>import("@/page/office/office");
 const review_progress = () =>import("@/page/office/review_progress");
 const search_progress = () =>import("@/page/office/search_progress");
-const review_message = () =>import("@/page/office/review_message");
+const review_noticeo = () =>import("@/page/office/review_notice");
 
 /*管理员功能*/
 // const manager = () =>import("@/page/manager/manager");
@@ -59,7 +61,7 @@ const edit_manager = () =>import("@/page/manager/user_manage/edit_manager");
 // const update_manager = () =>import("@/page/manager/user_manage/update_manager");
 const manager_detail = () =>import("@/page/manager/user_manage/manager_detail");
 const role_form = () =>import("@/page/manager/user_manage/roleForm");
-const edit_rolefrom = () =>import("@/page/manager/user_manage/edit_roleForm");
+
 
 // const process_manage = () =>import("@/page/manager/process_manage");
 // const answer = () =>import("@/page/manager/answer");
@@ -224,13 +226,6 @@ export const  routes =[
                         icon:'el-icon-edit-outline',
                         component:role_form
                     },
-                    {
-                        path: 'edit_rolefrom',
-                        hidden:false,
-                        meta: { title: '编辑角色菜单'},
-                        icon:'el-icon-edit-outline',
-                        component:edit_rolefrom
-                    },
                 ]
             },
             {
@@ -318,6 +313,14 @@ export const  routes =[
                         component:announcement
                     },
                     {
+                        path: 'review_notice',
+                        hidden:false,
+                        // name:'发布公告',
+                        meta: { title: '搜索公告'},
+                        icon:'el-icon-edit-outline',
+                        component:review_noticel
+                    },
+                    {
                         path: 'review_library',
                         hidden:false,
                         // name:'图书审核',
@@ -394,6 +397,14 @@ export const  routes =[
                         component:announcement
                     },
                     {
+                        path: 'review_notice',
+                        hidden:false,
+                        // name:'发布公告',
+                        meta: { title: '搜索公告'},
+                        icon:'el-icon-edit-outline',
+                        component:review_noticeo
+                    },
+                    {
                         path: 'review_progress',
                         hidden:false,
                         // name:'进度审核',
@@ -408,13 +419,6 @@ export const  routes =[
                         meta: { title: '进度查询'},
                         icon:'el-icon-search',
                         component:search_progress
-                    },
-                    {
-                        path: 'review_message',
-                        hidden:false,
-                        meta: { title: '未读消息'},
-                        icon:'el-icon-search',
-                        component:review_message
                     },
                 ]
             },

@@ -99,7 +99,7 @@
             </el-form-item>
             <!--                    multiple-->
             <el-form-item label="用户角色" prop="roleIds">
-                <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;"  multiple>
+                <el-select v-model="dataForm.department" placeholder="请选择" style="width: 100%;" >
                     <el-option
                             v-for="item in roles"
                             :key="item.index"

@@ -17,21 +17,52 @@
             <!--公告栏-->
             <!--            <div class="container">-->
             <el-col :span="20">
-                <el-card shadow="hover" style="width:99%;height:400px;" v-model="message">
+                <el-card shadow="hover" style="width:99%;" v-model="message">
                     <div slot="header" class="clearfix">
                         <span>公告</span>
+                        <el-button type="small" style="float: right" @click="getList()" v-if="account!=null">部门公告</el-button>
                         <!--<el-button style="float: right; padding: 3px 0" type="text">添加</el-button>-->
                     </div>
-                    <el-table :data="todoList" :show-header="false" style="width: 100%">
+                    <el-table :data="todoList" :show-header="false" style="width: 100%" class="show_table" >
                         <!--消息标题-->
                         <el-table-column>
                             <template slot-scope="scope">
-                                <span class="message-title">{{scope.row.title}}</span>
+<!--                                {{scope.row.publishTime}}-->
+                            <div    v-if="scope.row.isTop==='1'">
+                                <a  style="color:red" @click="getNotice(scope.row.noticeID),dialogVisible = true" class="message-title">【{{scope.row.noticeType}}】{{scope.row.title}} <img src="../assets/img/new.gif">
+                                </a>
+                            </div>
+                                <div    v-if="scope.row.isTop==='0'">
+                                    <a  style="color:blue" @click="getNotice(scope.row.noticeID),dialogVisible = true" >【{{scope.row.noticeType}}】{{scope.row.title}}    </a>
+                                </div>
                             </template>
                         </el-table-column>
                         <!--date-->
                         <el-table-column prop="'date'" width="150"></el-table-column>
                     </el-table>
+                    <el-dialog
+                        :visible.sync="dialogVisible"
+                        @close="onDialogClose()">
+                        <template slot="title">
+                            <div class='titleSize'>公告详情</div>
+                        </template>
+                        <el-form ref="todoList"  :model="todoList" label-width="80px" class="f2" >
+                            <el-form-item label="标题:" prop="title" style="align-content: center">
+                                <span>{{todoList.title}}</span>
+                                <!--                            <el-input v-model="financeData.stuNumber" placeholder="学号"></el-input>-->
+                            </el-form-item>
+                            <el-divider></el-divider>
+                            <el-form-item label="内容:" prop="content">
+                                <span>{{todoList.content}}</span>
+                            </el-form-item>
+<!--                            <el-divider></el-divider>-->
+
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="dialogVisible = false">关闭</el-button>
+                            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                        </div>
+                    </el-dialog>
                 </el-card>
             </el-col>
 
@@ -103,6 +134,7 @@
 <script>
     // import Schart from 'vue-schart';
     // import bus from './common/bus';
+    import teacher from "../api/edu/teacher";
     export default {
         data() {
             return {
@@ -113,31 +145,75 @@
                 account:'',
                 role:'',
                 Photo:'',
-                todoList: [{
-                    date: '2020-04-19 20:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                },{
-                    date: '2020-04-19 21:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                },{
-                    date: '2020-04-19 21:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                },{
-                    date: '2020-04-19 21:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                },{
-                    date: '2020-04-19 21:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                },{
-                    date: '2020-04-19 21:00:00',
-                    title: '【财务部】2017届毕业生离校请退校园卡通知',
-                }]
+                total: 0,//总记录数
+                page:1,//当前页
+                limit:10,//每页记录数
+                todoList: [],
+                dialogVisible:false
             }
         },
         created() {
+            this.getInfo()
             this.roles();
         },
         methods: {
+            getList(page =1) {
+                this.page = page
+                this.$axios.get('/sector/notice/findSelfNotice/' +this.limit+'/' +this.page ).then(res=>{
+                    //得到一个PageInfo对象
+                    //将PageInfo中的total赋值给当前的total
+                    // this.total = res.data.data.total;
+                    // this.todoList = res.data.data.list;
+                    console.log(res.data.data);
+                    if (res.data.data!=null){
+                        this.todoList = res.data.data.list;
+                        console.log(this.todoList);
+                    }
+                    else{
+                        this.$message({
+                            type: 'error',
+                            message:res.data.message
+                        })
+
+                    }
+                    this.message = res.data.message;
+                    console.log(this.message);
+                    console.log(this.todoList);
+                    // if (res.data.success!=null){
+                    //
+                    //     this.$message({
+                    //         type: 'success',
+                    //         message:res.data.message
+                    //     })}
+                    // else {}
+
+
+                }, function(err) {
+                    console.log(err);
+                })
+            },
+            getNotice(id){
+                    teacher.getNotice(id)
+                        .then(response => {
+                            this.todoList = response.data[0]
+                            console.log(this.todoList)
+                        })
+            },
+            getInfo() {
+                this.$axios.get('/common/notice/viewByAllPeople').then(res=> {
+                    this.todoList = res.data.data
+                    // if (this.todoList != null) {
+                    //     this.$message({
+                    //         type: 'success',
+                    //         message: res.data.message
+                    //     })
+                    // } else {
+                    //     this.$message({
+                    //         type: 'error',
+                    //         message: res.data.message
+                    //     })
+                    // }
+                })},
             roles(){
                 if(window.sessionStorage.getItem("stuType") !=="undefined") {
                     let useraccount = window.sessionStorage.getItem("stuNumber");
@@ -180,7 +256,10 @@
             },
             userInfo(){
                 this.$router.push('/user_info');
-            }
+            },
+            onDialogClose() {
+                this.$refs.todoList.resetFields()
+            },
         }
     };
 </script>
@@ -271,4 +350,26 @@
     .mgb20 {
         margin-bottom: 20px;
     }
+    .show_table {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: auto;
+    }
+    .f2{
+        font-size: 30px;
+        /*text-align:center;*/
+        font-weight:bold;
+
+        border: 1px solid #dcdfe6 !important;
+    }
+
+    .titleSize{
+        font-size: 30px;
+        text-align:center;
+    }
+    .message-title{
+        font-weight:bold;
+    }
+
 </style>

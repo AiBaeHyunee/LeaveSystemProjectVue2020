@@ -2,13 +2,12 @@
     <div>
         <div class="content-title-box">
             <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item >财务处</el-breadcrumb-item>
+                <el-breadcrumb-item >教务处</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{ path: '/sector/finance/review_finance' }">搜索公告</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
 
         <el-card class="box-card">
-
             <div class="search-bar">
                 <el-form :inline="true" class="fl">
                     <el-input style="display: none;"></el-input>
@@ -16,7 +15,6 @@
                         <el-input v-model="search.noticeID" placeholder="请输入公告标题" ></el-input>
                     </el-form-item>
                 </el-form>
-
                 <div class="fl">
                     <el-button type="text" @click="handleReset">重置</el-button>
                     <el-button type="primary" icon="el-icon-search" @click="doSearch(search.noticeID)">查询</el-button>
@@ -26,7 +24,7 @@
             <div>
                 <el-table
                         ref="singleTable"
-                        :data="financeData"
+                        :data="libData"
                         border
                         highlight-current-row
                         style="width: 100%">
@@ -52,7 +50,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.noticeID),dialogVisible=true">编辑</el-button>
-<!--                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.noticeID)" v-if="scope.row.checkStatus==='0'">审核</el-button>-->
+                                <!--                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.noticeID)" v-if="scope.row.checkStatus==='0'">审核</el-button>-->
                                 <el-button
                                         type="danger" size="mini"
                                         icon="el-icon-delete"
@@ -65,23 +63,23 @@
 
                 </el-table>
                 <el-dialog title="编辑" :visible.sync="dialogVisible" width="30%" @close="onDialogClose()">
-<!--                    <template slot-scope="scope">-->
-                        <el-form ref="form" :model="form" label-width="70px">
-                            <el-form-item label="标题" prop="title">
-                                <el-input v-model="form.title"></el-input>
-                            </el-form-item>
-                            <el-form-item label="内容" prop="content">
-                                <el-input type="textarea" rows="5" v-model="form.content"></el-input>
-                            </el-form-item>
-                            <el-form-item label="备注" prop="remark">
-                                <el-input v-model="form.remark"></el-input>
-                            </el-form-item>
-                        </el-form>
-                                    <span slot="footer" class="dialog-footer">
+                    <!--                    <template slot-scope="scope">-->
+                    <el-form ref="form" :model="form" label-width="70px">
+                        <el-form-item label="标题" prop="title">
+                            <el-input v-model="form.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="内容" prop="content">
+                            <el-input type="textarea" rows="5" v-model="form.content"></el-input>
+                        </el-form-item>
+                        <el-form-item label="备注" prop="remark">
+                            <el-input v-model="form.remark"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
                         <el-button @click="dialogVisible = false">关 闭</el-button>
                         <el-button type="primary" @click="uploadnotice(),dialogVisible = false">确 定</el-button>
                                     </span>
-<!--                    </template>-->
+                    <!--                    </template>-->
                 </el-dialog>
                 <div class="pagination-bar">
                     <el-pagination
@@ -116,7 +114,7 @@
                 page:1,//当前页
                 limit:10,//每页记录数
                 dialogVisible:false,
-                financeData: [],
+                libData: [],
                 form:{},
                 // excelobj: 'library',
                 // extp: this.exportExceltype,
@@ -189,7 +187,7 @@
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
                     this.total = res.data.data.total;
-                    this.financeData = res.data.data.list;
+                    this.libData = res.data.data.list;
                     console.log(this.total);
 
                 }, function(err) {
@@ -200,7 +198,7 @@
 
             // cardExport() {
             //     this.$axios.get('/sector/card/export').then(res=>{
-            //         // this.cardData = res.data
+            //         // this.libData = res.data
             //         console.log(res.data)
             //     });
             // },
@@ -211,7 +209,7 @@
                     //将PageInfo中的total赋值给当前的total
                     this.total = res.data.data.total;
                     this.code = res.data.code;
-                    this.financeData = res.data.data.list;
+                    this.libData = res.data.data.list;
                     console.log(this.total);
                     console.log(this.code)
                     if (res.data.code===20000){

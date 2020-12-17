@@ -48,10 +48,10 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column  prop="index"  label="权重值" width="110"></el-table-column>
+                <el-table-column  prop="index"  label="权重值" sortable width="110"></el-table-column>
                 <el-table-column  label="操作" fixed="right" width="200">
                 <template slot-scope="scope">
-                    <el-button type="text"  size="mini" @click="() => {dialogPermissionVisible = true, permission.pid = scope.row.id}">添加功能</el-button>
+                    <el-button type="text"  size="mini" @click="() => {dialogPermissionVisible = true, permission.parentId = scope.row.id}">添加功能</el-button>
                     <el-button type="text" size="mini" @click="() => getById(scope.row)">修改</el-button>
                     <el-button type="danger"  size="mini" @click="() => remove(scope.row)" >删除</el-button>
                 </template>
@@ -63,8 +63,11 @@
                 <el-form-item label="菜单名称" prop="name">
                     <el-input v-model="menu.name"/>
                 </el-form-item>
-                <el-form-item label="访问路径" prop="path">
-                    <el-input v-model="menu.path"/>
+                <el-form-item label="访问路径" prop="url">
+                    <el-input v-model="menu.url"/>
+                </el-form-item>
+                <el-form-item label="权限序列" prop="index">
+                    <el-input v-model="menu.index"/>
                 </el-form-item>
 
             </el-form>
@@ -80,10 +83,13 @@
                     <el-input v-model="permission.name"/>
                 </el-form-item>
                 <el-form-item label="访问路径">
-                    <el-input v-model="permission.path"/>
+                    <el-input v-model="permission.url"/>
                 </el-form-item>
-                <el-form-item label="功能权重值" prop="permissionValue">
-                    <el-input v-model="permission.permissionValue"/>
+                <el-form-item label="权限序列" prop="index">
+                    <el-input v-model="permission.index"/>
+                </el-form-item>
+                <el-form-item label="父级ID" prop="id">
+                    <el-input v-model="permission.parentId"/>
                 </el-form-item>
 
             </el-form>
@@ -103,17 +109,21 @@
     const menuForm = {
         name: '',
         pid: 0,
-        path: '',
+        url: '',
         component: '',
-        type: '1'
+        type: '1',
+        resourceType:'路径',
+        index:'',
     }
     const perForm = {
-        permissionValue: '',
         type: '2',
         name: '',
-        path: '',
+        url: '',
         component: '',
-        pid: 0
+        pid: 0,
+        resourceType:'路径',
+        index:'',
+        parentId:'',
     }
 
     export default {
@@ -136,12 +146,13 @@
                 permission: perForm,
                 menuValidateRules: {
                     name: [{required: true, trigger: 'blur', message: '菜单名必须输入'}],
-                    path: [{required: true, trigger: 'blur', message: '菜单路径必须输入'}],
-                    component: [{required: true, trigger: 'blur', message: '组件名称必须输入'}]
+                    url: [{required: true, trigger: 'blur', message: '菜单路径必须输入'}],
+                    // component: [{required: true, trigger: 'blur', message: '组件名称必须输入'}],
+                    index: [{required: true, trigger: 'blur', message: '权限序列必须输入'}]
                 },
                 permissionValidateRules: {
                     name: [{required: true, trigger: 'blur', message: '功能名称必须输入'}],
-                    permissionValue: [{required: true, trigger: 'blur', message: '功能权限值必须输入'}]
+                    index: [{required: true, trigger: 'blur', message: '功能权限值必须输入'}]
                 }
             }
         },
@@ -195,7 +206,6 @@
             },
             remove(data) {
                 console.log(data)
-
                 this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -243,6 +253,7 @@
                         }
                     }
                 })
+                this.fetchNodeList()
             },
             appendLevelOne() {
                 menu.saveLevelOne(this.menu)
@@ -269,6 +280,7 @@
                         this.permission = {...perForm}
                         console.log(response)
                     })
+                this.fetchNodeList()
             },
 
             append() {

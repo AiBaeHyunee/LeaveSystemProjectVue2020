@@ -62,8 +62,8 @@ export default {
     //修改讲师
     updateTeacherInfo(id,List) {
         return request({
-            url: '/admin/user/'+id,
-            method: 'put',
+            url: '/admin/user/update/'+id,
+            method: 'post',
             data:List
           })
     },
@@ -74,5 +74,29 @@ export default {
             method:'get',
             data:List
         })
-    }
+    },
+    //发布/编辑公告
+    addNotice(data) {
+        return request({
+            url: '/sector/notice/upload',
+            method: 'post',
+            data:data
+            // params
+        })
+    },
+//获取公告详情
+    getNotice(id,List) {
+        return request({
+            url: '/sector/notice/viewNoticeDetails/'+id,
+            method: 'get',
+            data:List
+        })
+    },
+//根据id删除公告
+    removeById(id){
+        return request({
+            url: '/admin/notice/deleteNotice/'+id,
+            method: 'post'
+        })
+    },
 }

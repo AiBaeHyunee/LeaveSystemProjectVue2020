@@ -124,7 +124,7 @@
                 },
                 total: 0,//总记录数
                 page:1,//当前页
-                limit:15,//每页记录数
+                limit:10,//每页记录数
 
                 dialogVisible:false,
                 stuData:[],
@@ -169,9 +169,11 @@
                 this.$axios.get('/sector/edu/findAllByPage?start=' +this.page+'&size=' + this.limit).then(res=>{
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
+                    this.page = res.data.data.pages;
                     this.total = res.data.data.total;
                     this.eduData = res.data.data.list;
                     console.log(this.total);
+                    console.log(this.page);
 
                 }, function(err) {
                     console.log(err);
