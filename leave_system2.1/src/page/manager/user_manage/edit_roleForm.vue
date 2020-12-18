@@ -3,8 +3,8 @@
     <div class="content-title-box">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item >用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/manager/edit_manager' }">角色管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/manager/edit_rolefrom' }">编辑角色菜单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/edit_manager' }">角色管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/edit_roleForm' }">编辑角色菜单</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-card class="box-card">
@@ -19,7 +19,7 @@
             :props="defaultProps">
           </el-tree>
         <el-button :disabled="saveBtnDisabled" type="primary" size="mini" icon="el-icon-edit" @click="save">保存</el-button>
-        <router-link :to="'/manager/edit_manager'">
+        <router-link :to="'/admin/edit_manager'">
           <el-button type="info" size="mini" icon="el-icon-refresh-left" >返回</el-button>
         </router-link>
       </div>
@@ -111,7 +111,7 @@ export default {
                 type:'success',
                 message:'保存成功'
               })
-              this.$router.push({ path: '/manager/grant_manager' })
+              this.$router.push({ path: '/admin/grant_manager' })
             }
       })
     }

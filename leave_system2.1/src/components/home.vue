@@ -1,26 +1,36 @@
 <template>
     <div>
-        <el-row :gutter="27">
-            <el-col :span="4">
-                <!--显示登录用户界面-->
-                <el-card shadow="hover" class="mgb20" style="width:220px;height:140px;">
-                    <div class="user-info">
-                        <img src="../assets/img/img.jpg" class="user-avator" alt />
-                        <div class="user-info-cont">
-                            <div class="user-info-name">{{account}}</div>
-                            <div>{{role}}</div>
-                        </div>
-                    </div>
-                </el-card>
-            </el-col>
+        <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+            查看个人信息
+        </el-button>
 
+        <el-drawer title="我的个人信息" :visible.sync="drawer">
+            <div class="user-info">
+                <img src="../assets/img/img.jpg" class="user-avator" alt />
+                <div class="user-info-cont">
+                    <div class="user-info-name">{{account}}</div>
+                    <div>{{role}}</div>
+                </div>
+            </div>
+        </el-drawer>
+
+        <el-row>
+            <el-col>
+                <el-carousel :interval="4000" type="card" height="300px" >
+                    <el-carousel-item v-for="(item,index) in imglist" :key="index">
+                        <el-image :src="item.img" :preview-src-list="imgitemlist" id="imgitem"/>
+                    </el-carousel-item>
+                </el-carousel>
+            </el-col>
+        </el-row>
+
+        <el-row :gutter="30">
             <!--公告栏-->
-            <!--            <div class="container">-->
-            <el-col :span="20">
-                <el-card shadow="hover" style="width:99%;" v-model="message">
+            <el-col :span="16">
+                <el-card shadow="hover"  v-model="message">
                     <div slot="header" class="clearfix">
                         <span>公告</span>
-                        <el-button type="small" style="float: right" @click="getList()" v-if="account!=null">部门公告</el-button>
+                        <el-button type="small" style="float: right" @click="getList()" v-if="account!=null">我的公告</el-button>
                         <!--<el-button style="float: right; padding: 3px 0" type="text">添加</el-button>-->
                     </div>
                     <el-table :data="todoList" :show-header="false" style="width: 100%" class="show_table" >
@@ -65,11 +75,54 @@
                     </el-dialog>
                 </el-card>
             </el-col>
-
+            <el-col :span="8" >
+                <el-card >
+                    <el-calendar v-model="value" style="height: 500px"></el-calendar>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card>
+                    <cmap></cmap>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card>
+                    <ecard></ecard>
+                </el-card>
+            </el-col>
         </el-row>
 
         <!-- 常用功能 -->
         <el-row>
+            <el-col :span="12">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>待办事项</span>
+                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+                    </div>
+                    <el-table :show-header="false" :data="todoList" style="width:100%;">
+                        <el-table-column width="40">
+                            <template slot-scope="scope">
+                                <el-checkbox v-model="scope.row.status"></el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <div
+                                        class="todo-item"
+                                        :class="{'todo-item-del': scope.row.status}"
+                                >{{scope.row.title}}</div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column width="60">
+                            <template>
+                                <i class="el-icon-edit"></i>
+                                <i class="el-icon-delete"></i>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-card>
+            </el-col>
             <div style="text-align:center;padding-bottom: 20px;">
                 <span>常用功能</span>
             </div>
@@ -89,7 +142,7 @@
                         <div class="grid-content grid-con-2">
                             <i class="el-icon-date grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <el-button @click="leaveProgress">离校进度</el-button>
+                                <el-button @click="noticeMsg">公告信息</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -99,35 +152,24 @@
                         <div class="grid-content grid-con-3">
                             <i class="el-icon-tickets grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <el-button @click="leaveTable">离校表单</el-button>
+                                <el-button @click="answerMsg">答复消息</el-button>
                             </div>
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="2.5" style="padding-left: 120px">
-                    <el-card shadow="hover" :body-style="{padding: '0px'}">
-                        <div class="grid-content grid-con-4">
-                            <i class="el-icon-edit-outline grid-con-icon"></i>
-                            <div class="grid-cont-right">
-                                <el-button @click="reviewPwd">修改密码</el-button>
-                            </div>
-                        </div>
-                    </el-card>
-                </el-col>
-                <el-col :span="2.5" style="padding-left: 120px">
-                    <el-card shadow="hover" :body-style="{padding: '0px'}">
-                        <div class="grid-content grid-con-5">
-                            <i class="el-icon-user-solid grid-con-icon"></i>
-                            <div class="grid-cont-right">
-                                <el-button @click="manage">管理员入口</el-button>
-                            </div>
-                        </div>
-                    </el-card>
-                </el-col>
+<!--                <el-col :span="2.5" style="padding-left: 120px">-->
+<!--                    <el-card shadow="hover" :body-style="{padding: '0px'}">-->
+<!--                        <div class="grid-content grid-con-4">-->
+<!--                            <i class="el-icon-edit-outline grid-con-icon"></i>-->
+<!--                            <div class="grid-cont-right">-->
+<!--                                <el-button @click="modifyPwd">修改密码</el-button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-card>-->
+<!--                </el-col>-->
+
             </el-row>
-
         </el-row>
-
     </div>
 </template>
 
@@ -138,6 +180,29 @@
     export default {
         data() {
             return {
+                drawer: false,
+                //轮播图
+                imglist:[
+                    {img:'http://streetwill.co/uploads/post/photo/627/show_8ZR1xyVbOj88ec-JWVKc0K8DpXwiRPr3-KEqLXhfsfY.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/344/medium_2x_TLUsfzimpkKMaoLLnMB-nPCKrLhs9L3LZSxxkD4ZUpw.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/513/medium_2x_SuiIQMgemvmRYmU_flaY93vmndx0-9Lu-NDfIDqKbI8.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/626/medium_2x_Wf3CLkrY-uxvaK263MIDBDn83AHRKpi9RUmbn1zo3bo.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/705/medium_2x_LZXJ0OE9XgUg_QVlTV_JaKk67qOz63TO-HP9l6UFCWQ.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/867/medium_2x_D11m14pr02N4871owy9LJ5zo7aylSHYRblL9CnT2GU0.jpg'},
+                    {img:'http://streetwill.co/uploads/post/photo/707/medium_2x_F8oNfhyOZ154bje-8e6aqav-Md20p6vUWKH7nmB7PrU.jpg'},
+                ],
+                imgitemlist:[
+                    'http://streetwill.co/uploads/post/photo/627/show_8ZR1xyVbOj88ec-JWVKc0K8DpXwiRPr3-KEqLXhfsfY.jpg',
+                    'http://streetwill.co/uploads/post/photo/344/medium_2x_TLUsfzimpkKMaoLLnMB-nPCKrLhs9L3LZSxxkD4ZUpw.jpg',
+                    'http://streetwill.co/uploads/post/photo/513/medium_2x_SuiIQMgemvmRYmU_flaY93vmndx0-9Lu-NDfIDqKbI8.jpg',
+                    'http://streetwill.co/uploads/post/photo/626/medium_2x_Wf3CLkrY-uxvaK263MIDBDn83AHRKpi9RUmbn1zo3bo.jpg',
+                    'http://streetwill.co/uploads/post/photo/705/medium_2x_LZXJ0OE9XgUg_QVlTV_JaKk67qOz63TO-HP9l6UFCWQ.jpg',
+                    'http://streetwill.co/uploads/post/photo/867/medium_2x_D11m14pr02N4871owy9LJ5zo7aylSHYRblL9CnT2GU0.jpg',
+                    'http://streetwill.co/uploads/post/photo/707/medium_2x_F8oNfhyOZ154bje-8e6aqav-Md20p6vUWKH7nmB7PrU.jpg'
+
+                ],
+                //日历
+                value: new Date(),
                 name:'未登录',
                 department:'无角色',
                 message: 'first',
@@ -257,6 +322,16 @@
             userInfo(){
                 this.$router.push('/user_info');
             },
+            noticeMsg(){
+                this.$router.push('/system_msg/notice_msg');
+            },
+            answerMsg(){
+                this.$router.push('/system_msg/answer_msg');
+            },
+
+             modifyPwd(){
+                this.$router.push('/modify_password');
+            },
             onDialogClose() {
                 this.$refs.todoList.resetFields()
             },
@@ -371,5 +446,32 @@
     .message-title{
         font-weight:bold;
     }
+    .todo-item {
+        font-size: 14px;
+    }
 
+    .todo-item-del {
+        text-decoration: line-through;
+        color: #999;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 200px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+    }
+     #imgitem{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
 </style>

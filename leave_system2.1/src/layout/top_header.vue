@@ -43,7 +43,7 @@
 
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../assets/img/img.jpg" />
+                    <img src="../assets/img/img.jpg"/>
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -60,6 +60,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -267,4 +268,5 @@
     .el-dropdown-menu__item {
         text-align: center;
     }
+
 </style>

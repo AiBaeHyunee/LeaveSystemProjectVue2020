@@ -18,14 +18,33 @@
                     </div>
             </el-form>
         </div>
+    <vue-particles
+            color="#dedede"
+            :particleOpacity="0.7"
+            :particlesNumber="80"
+            shapeType="circle"
+            :particleSize="4"
+            linesColor="#dedede"
+            :linesWidth="1"
+            :lineLinked="true"
+            :lineOpacity="0.4"
+            :linesDistance="150"
+            :moveSpeed="3"
+            :hoverEffect="true"
+            hoverMode="grab"
+            :clickEffect="false"
+            clickMode="push">
+    </vue-particles>
     </div>
 </template>
 
 <script>
     import cookie from "js-cookie";
+    import VueParticles from '@/components/Particles/index'
 
     import menu from '@/api/edu/menu';
     export default{
+        components: { VueParticles },
         data(){
             return {
                 param: {
@@ -120,8 +139,9 @@
         position: relative;
         width: 100%;
         height: 100%;
-        background-image: url(../assets/img/login-bg.jpg);
+        /*background-image: url(../assets/img/login-bg.jpg);*/
         background-size: 100%;
+        /*background-color: #102657*/
     }
     #yz{
         margin-left: 135px;
@@ -143,6 +163,7 @@
         border-radius: 5px;
         background: rgba(255, 255, 255, 0.3);
         overflow: hidden;
+        /*background: rgba(255, 255, 255, 0);*/
     }
     .ms-content {
         padding: 30px 30px;
@@ -159,5 +180,15 @@
         font-size: 12px;
         line-height: 30px;
         color: #fff;
+    }
+    #particles-js {
+    background-image: url("http://img4.imgtn.bdimg.com/it/u=2393950688,574294532&fm=27&gp=0.jpg");
+        background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
 </style>

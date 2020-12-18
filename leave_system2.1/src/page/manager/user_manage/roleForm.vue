@@ -3,8 +3,8 @@
     <div class="content-title-box">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item >用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/manager/edit_manager' }">角色管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/manager/role' }">角色菜单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/edit_manager' }">角色管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/admin/role' }">角色菜单</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-card class="box-card">
@@ -18,10 +18,10 @@
                   highlight-current
                   :props="defaultProps">
                 </el-tree>
-              <router-link :to="'/manager/edit_rolefrom'">
+              <router-link :to="'/admin/edit_rolefrom'">
                 <el-button type="primary" size="mini" icon="el-icon-edit" >编辑角色</el-button>
               </router-link>
-              <router-link :to="'/manager/edit_manager'">
+              <router-link :to="'/admin/edit_manager'">
                 <el-button type="info" size="mini" icon="el-icon-refresh-left" >返回</el-button>
               </router-link>
             </div>

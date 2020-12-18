@@ -10,6 +10,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import leftMenu from './layout/left_menu';
 import topHeader from './layout/top_header';
 import mailTable from "./components/mailtable";
+import map from './page/office/review_message';
+import echartcard from "./components/echartCard";
 
 import axios from "axios";
 Vue.prototype.$axios = axios;
@@ -31,6 +33,8 @@ Vue.component('left-menu',leftMenu);
 Vue.component('top-header',topHeader);
 Vue.component('tags',tags);
 Vue.component('mail',mailTable);
+Vue.component("cmap",map);
+Vue.component("ecard",echartcard);
 
 
 Vue.use(ElementUI);

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "echarts": "^5.0.0"
+    "echarts": "^5.0.0",
+    "particles.js": "^2.0.0"
   }
 }

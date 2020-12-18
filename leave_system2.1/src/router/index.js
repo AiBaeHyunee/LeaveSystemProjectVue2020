@@ -47,6 +47,7 @@ const search_logistics = () =>import("@/page/logistics/search_logistics");
 const review_progress = () =>import("@/page/office/review_progress");
 const search_progress = () =>import("@/page/office/search_progress");
 const review_noticeo = () =>import("@/page/office/review_notice");
+const review_message = () =>import("@/page/office/review_message");
 
 /*管理员功能*/
 // const manager = () =>import("@/page/manager/manager");
@@ -61,7 +62,8 @@ const edit_manager = () =>import("@/page/manager/user_manage/edit_manager");
 // const update_manager = () =>import("@/page/manager/user_manage/update_manager");
 const manager_detail = () =>import("@/page/manager/user_manage/manager_detail");
 const role_form = () =>import("@/page/manager/user_manage/roleForm");
-
+//edit_roleForm
+const edit_roleForm = () =>import("@/page/manager/user_manage/edit_roleForm");
 
 // const process_manage = () =>import("@/page/manager/process_manage");
 // const answer = () =>import("@/page/manager/answer");
@@ -225,6 +227,14 @@ export const  routes =[
                         meta: { title: '角色菜单'},
                         icon:'el-icon-edit-outline',
                         component:role_form
+                    },
+                //    admin
+                    {
+                        path: 'edit_roleForm',
+                        hidden:false,
+                        meta: { title: '角色菜单'},
+                        icon:'el-icon-edit-outline',
+                        component:edit_roleForm
                     },
                 ]
             },
@@ -419,6 +429,14 @@ export const  routes =[
                         meta: { title: '进度查询'},
                         icon:'el-icon-search',
                         component:search_progress
+                    },
+                    {
+                        path: 'review_message',
+                        hidden:false,
+                        // name:'发布公告',
+                        meta: { title: '地图'},
+                        icon:'el-icon-edit-outline',
+                        component:review_message
                     },
                 ]
             },
