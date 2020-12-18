@@ -12,6 +12,8 @@ import topHeader from './layout/top_header';
 import mailTable from "./components/mailtable";
 import map from './page/office/review_message';
 import echartcard from "./components/echartCard";
+import echarLib from "./components/echartLib";
+import echartBook from "./components/echartBook";
 
 import axios from "axios";
 Vue.prototype.$axios = axios;
@@ -35,6 +37,8 @@ Vue.component('tags',tags);
 Vue.component('mail',mailTable);
 Vue.component("cmap",map);
 Vue.component("ecard",echartcard);
+Vue.component("elib",echarLib);
+Vue.component("ebook",echartBook);
 
 
 Vue.use(ElementUI);

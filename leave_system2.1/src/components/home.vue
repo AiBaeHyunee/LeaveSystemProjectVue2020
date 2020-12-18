@@ -16,9 +16,9 @@
 
         <el-row>
             <el-col>
-                <el-carousel :interval="4000" type="card" height="300px" >
+                <el-carousel :interval="4000" type="card" height="250px" >
                     <el-carousel-item v-for="(item,index) in imglist" :key="index">
-                        <el-image :src="item.img" :preview-src-list="imgitemlist" id="imgitem"/>
+                        <el-image :src="item.img" :preview-src-list="imgitemlist" id="imgitem" style="width:100%;height:100%"/>
                     </el-carousel-item>
                 </el-carousel>
             </el-col>
@@ -80,6 +80,8 @@
                     <el-calendar v-model="value" style="height: 500px"></el-calendar>
                 </el-card>
             </el-col>
+        </el-row>
+        <el-row :gutter="30">
             <el-col :span="12">
                 <el-card>
                     <cmap></cmap>
@@ -100,7 +102,7 @@
                         <span>待办事项</span>
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
-                    <el-table :show-header="false" :data="todoList" style="width:100%;">
+                    <el-table :show-header="false" :data="todoList" style="width:100%;height: 300px">
                         <el-table-column width="40">
                             <template slot-scope="scope">
                                 <el-checkbox v-model="scope.row.status"></el-checkbox>
@@ -157,16 +159,16 @@
                         </div>
                     </el-card>
                 </el-col>
-<!--                <el-col :span="2.5" style="padding-left: 120px">-->
-<!--                    <el-card shadow="hover" :body-style="{padding: '0px'}">-->
-<!--                        <div class="grid-content grid-con-4">-->
-<!--                            <i class="el-icon-edit-outline grid-con-icon"></i>-->
-<!--                            <div class="grid-cont-right">-->
-<!--                                <el-button @click="modifyPwd">修改密码</el-button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </el-card>-->
-<!--                </el-col>-->
+                <el-col :span="2.5" style="padding-left: 120px">
+                    <el-card shadow="hover" :body-style="{padding: '0px'}">
+                        <div class="grid-content grid-con-4">
+                            <i class="el-icon-edit-outline grid-con-icon"></i>
+                            <div class="grid-cont-right">
+                                <el-button @click="modifyPwd">修改密码</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
 
             </el-row>
         </el-row>
@@ -183,23 +185,26 @@
                 drawer: false,
                 //轮播图
                 imglist:[
-                    {img:'http://streetwill.co/uploads/post/photo/627/show_8ZR1xyVbOj88ec-JWVKc0K8DpXwiRPr3-KEqLXhfsfY.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/344/medium_2x_TLUsfzimpkKMaoLLnMB-nPCKrLhs9L3LZSxxkD4ZUpw.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/513/medium_2x_SuiIQMgemvmRYmU_flaY93vmndx0-9Lu-NDfIDqKbI8.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/626/medium_2x_Wf3CLkrY-uxvaK263MIDBDn83AHRKpi9RUmbn1zo3bo.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/705/medium_2x_LZXJ0OE9XgUg_QVlTV_JaKk67qOz63TO-HP9l6UFCWQ.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/867/medium_2x_D11m14pr02N4871owy9LJ5zo7aylSHYRblL9CnT2GU0.jpg'},
-                    {img:'http://streetwill.co/uploads/post/photo/707/medium_2x_F8oNfhyOZ154bje-8e6aqav-Md20p6vUWKH7nmB7PrU.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/3PQLBTZQPC.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/RB7IEMA2PS.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/E1C34B4580.jpg'},
+                    {img:'https://image.shutterstock.com/image-photo/happy-smiling-kid-glasses-going-260nw-1146209870.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/school-university_BB76EYQM84.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/EWT7K0DQLN.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/4B1IQUY1C3.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/4TDHSPIMJ6.jpg'},
+                    {img:'https://cdn.stocksnap.io/img-thumbs/280h/1D180509DF.jpg'},
                 ],
                 imgitemlist:[
-                    'http://streetwill.co/uploads/post/photo/627/show_8ZR1xyVbOj88ec-JWVKc0K8DpXwiRPr3-KEqLXhfsfY.jpg',
-                    'http://streetwill.co/uploads/post/photo/344/medium_2x_TLUsfzimpkKMaoLLnMB-nPCKrLhs9L3LZSxxkD4ZUpw.jpg',
-                    'http://streetwill.co/uploads/post/photo/513/medium_2x_SuiIQMgemvmRYmU_flaY93vmndx0-9Lu-NDfIDqKbI8.jpg',
-                    'http://streetwill.co/uploads/post/photo/626/medium_2x_Wf3CLkrY-uxvaK263MIDBDn83AHRKpi9RUmbn1zo3bo.jpg',
-                    'http://streetwill.co/uploads/post/photo/705/medium_2x_LZXJ0OE9XgUg_QVlTV_JaKk67qOz63TO-HP9l6UFCWQ.jpg',
-                    'http://streetwill.co/uploads/post/photo/867/medium_2x_D11m14pr02N4871owy9LJ5zo7aylSHYRblL9CnT2GU0.jpg',
-                    'http://streetwill.co/uploads/post/photo/707/medium_2x_F8oNfhyOZ154bje-8e6aqav-Md20p6vUWKH7nmB7PrU.jpg'
-
+                    'https://cdn.stocksnap.io/img-thumbs/280h/3PQLBTZQPC.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/RB7IEMA2PS.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/E1C34B4580.jpg',
+                    'https://image.shutterstock.com/image-photo/happy-smiling-kid-glasses-going-260nw-1146209870.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/school-university_BB76EYQM84.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/EWT7K0DQLN.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/4B1IQUY1C3.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/4TDHSPIMJ6.jpg',
+                    'https://cdn.stocksnap.io/img-thumbs/280h/1D180509DF.jpg'
                 ],
                 //日历
                 value: new Date(),

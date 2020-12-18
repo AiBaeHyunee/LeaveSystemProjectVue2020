@@ -6,20 +6,18 @@
                 <el-breadcrumb-item :to="{ path: '/sector/library/statistical_data' }">统计数据</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div >
-            <el-row :gutter="45">
-                <el-col span="5" offset="1">
-                    <el-card style="width:250px; height: 140px;">
-                        <p slot="title">今日访客</p>
-                        <p><span class="card-big-font">2,803</span></p>
-                        <p style="font-size: 14px;padding-top: 10px;">
-                            总访客
-                            <span class="card-span-color"><span>2万</span>
-                        <icon type="ios-flag" /></span>
-                        </p>
+        <div>
+            <el-row>
+                <el-col :span="10" offset="1">
+                    <ebook></ebook>
+                </el-col>
+                <el-col :span="13">
+                    <el-card>
+                        <elib></elib>
                     </el-card>
                 </el-col>
-
+            </el-row>
+            <el-row>
                 <el-col :span="13" offset="1">
                     <el-card shadow="hover" style="width:700px;height:500px;">
                         <div class="schart-box">
@@ -29,25 +27,17 @@
                     </el-card>
                 </el-col>
 
-                <el-col :span="5">
+                <el-col :span="4">
                     <el-card shadow="hover" style="width:700px;height:500px;">
-                   <div class="schart-box">
-                       <div class="content-title">借阅趋势</div>
-                       <schart class="schart" canvasId="line" :options="options2"></schart>
-                   </div>
+                        <div class="schart-box">
+                            <div class="content-title">借阅趋势</div>
+                            <schart class="schart" canvasId="line" :options="options2"></schart>
+                        </div>
                     </el-card>
-                </el-col>
-
-                <el-col :span="1" offset="8">
-                    <el-card shadow="hover" style="width:700px;height:500px;">
-                    <div class="schart-box">
-                        <div class="content-title">借阅种类</div>
-                        <schart class="schart" canvasId="pie" :options="options3"></schart>
-                    </div>
-                </el-card>
                 </el-col>
             </el-row>
         </div>
+
     </div>
 </template>
 

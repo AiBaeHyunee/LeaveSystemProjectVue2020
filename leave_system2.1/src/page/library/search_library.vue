@@ -3,7 +3,7 @@
         <div class="content-title-box">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item >图书馆</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/sector/library/search_library' }">图书馆查询</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/sector/library/search_library' }">图书查询</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
 
@@ -209,12 +209,10 @@
     .search-bar{
         overflow: hidden;
     }
-</style>
-
-<style>
     .tools-bar{
         margin-bottom:20px;
     }
 </style>
+
 
 

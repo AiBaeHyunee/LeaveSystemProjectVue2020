@@ -99,4 +99,12 @@ export default {
             method: 'post'
         })
     },
+    //搜索日志
+    searchLog(log) {
+        return request({
+            url: '/common/logs',
+            method: 'post',
+            data: log
+        })
+    },
 }
