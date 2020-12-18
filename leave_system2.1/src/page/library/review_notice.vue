@@ -35,6 +35,9 @@
 
                     <el-table-column prop="noticeType" label="发布者"  align="center"></el-table-column>
                     <el-table-column prop="content" label="内容" align="center"  :show-overflow-tooltip='true'></el-table-column>
+                    <el-table-column prop="publishTime" label="发布时间" align="center"  :show-overflow-tooltip='true'>
+                        <span slot-scope="scope">{{dateFormat('YYYY-mm-dd',scope.row.publishTime)}}</span>
+                    </el-table-column>
                     <el-table-column prop="checkStatus" label="状态"  align="center">
                         <template slot-scope="scope">
                             <!--                        <el-tag :type="scope.row.checkStatus === '1' ? 'success' : 'danger'" disable-transitions>-->
@@ -49,7 +52,7 @@
                     <el-table-column label="操作" fixed="right" width="200">
                         <template slot-scope="scope">
                             <div>
-                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.noticeID),dialogVisible=true">编辑</el-button>
+                                <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.noticeID)">编辑</el-button>
                                 <!--                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.noticeID)" v-if="scope.row.checkStatus==='0'">审核</el-button>-->
                                 <el-button
                                         type="danger" size="mini"
@@ -113,7 +116,7 @@
                 total: 0,//总记录数
                 page:1,//当前页
                 limit:10,//每页记录数
-                dialogVisible:false,
+                // dialogVisible:false,
                 libData: [],
                 form:{},
                 // excelobj: 'library',
@@ -166,7 +169,32 @@
                     .then(response => {
                         this.form = response.data[0]
                         console.log(this.form)
+                        window.sessionStorage.setItem("noticeID",id);
+                        this.$router.push('/sector/library/library_notice')
                     })},
+            dateFormat(fmt, date) {
+                let ret="";
+                date=new Date(date);
+                const opt = {
+                    'Y+': date.getFullYear().toString(), // 年
+                    'm+': (date.getMonth() + 1).toString(), // 月
+                    'd+': date.getDate().toString(), // 日
+                    'H+': date.getHours().toString(), // 时
+                    'M+': date.getMinutes().toString(), // 分
+                    'S+': date.getSeconds().toString() // 秒
+                    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+                }
+                for (let k in opt) {
+                    ret = new RegExp('(' + k + ')').exec(fmt)
+                    if (ret) {
+                        fmt = fmt.replace(
+                            ret[1],
+                            ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, '0')
+                        )
+                    }
+                }
+                return fmt
+            },
 
             filterTag(value, row) {
                 return row.libStatus === value;

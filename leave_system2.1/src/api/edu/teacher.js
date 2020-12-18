@@ -107,4 +107,12 @@ export default {
             data: log
         })
     },
+    //后勤部
+    postLetter(id,list) {
+        return request({
+            url: '/sector/dorm/checkDormStatus?stuNumber='+id,
+            method: 'post',
+            data: list
+        })
+    },
 }

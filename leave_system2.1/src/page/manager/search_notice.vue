@@ -41,25 +41,29 @@
 
                 <el-table-column prop="noticeType" label="发布者" width="80" align="center"></el-table-column>
                 <el-table-column prop="content" label="内容" align="center" width="150" :show-overflow-tooltip='true'></el-table-column>
-                <el-table-column prop="checkStatus" label="状态" width="150" align="center">
-
+                <el-table-column prop="checkStatus" label="状态"  align="center"  style="position: center"
+                                 :filters="[{ text: '审核通过', value: '1' }, { text: '审核未通过', value: '2' },{ text: '待审核', value: '0' },{ text: '草稿', value: '3' }]"
+                                 :filter-method="filterTag"
+                                 filter-placement="bottom-end">
                     <template slot-scope="scope">
-<!--                        <el-tag :type="scope.row.checkStatus === '1' ? 'success' : 'danger'" disable-transitions>-->
-<!--                            {{scope.row.checkStatus === "1" ?'已通过':'未通过'}}-->
-<!--                        </el-tag>-->
-                        <el-tag :type="(scope.row.checkStatus == '1' ? '' : (scope.row.checkStatus == '1' ? 'success' : (scope.row.checkStatus == '2' ? 'danger' : (scope.row.checkStatus == '0' ? 'warning' : 'danger'))))" size="mini">
-                            {{ scope.row.checkStatus == '3' ? '草稿' : (scope.row.checkStatus == '1' ? '审核通过' : (scope.row.checkStatus == '2' ? '审核未通过' : (scope.row.checkStatus == '0' ? '待审核' : '待审核'))) }}
+                        <!--                        <el-tag :type="scope.row.checkStatus === '1' ? 'success' : 'danger'" disable-transitions>-->
+                        <!--                            {{scope.row.checkStatus === "1" ?'已通过':'未通过'}}-->
+                        <!--                        </el-tag>-->
+                        <el-tag :type="(scope.row.checkStatus === '1' ? '' : (scope.row.checkStatus === '1' ? 'success' : (scope.row.checkStatus === '2' ? 'danger' : (scope.row.checkStatus === '0' ? 'warning' : 'danger'))))" size="mini">
+                            {{ scope.row.checkStatus === '3' ? '草稿' : (scope.row.checkStatus === '1' ? '审核通过' : (scope.row.checkStatus === '2' ? '审核未通过' : (scope.row.checkStatus === '0' ? '待审核' : '待审核'))) }}
                         </el-tag>
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="publishTime" label="发布时间" align="center"></el-table-column>
-                <el-table-column label="操作" width="430" >
+                <el-table-column prop="publishTime" label="发布时间" align="center"  :show-overflow-tooltip='true'>
+                    <span slot-scope="scope">{{dateFormat('YYYY-mm-dd',scope.row.publishTime)}}</span>
+                </el-table-column>
+                <el-table-column label="操作" width="430" align="center">
                     <template slot-scope="scope">
                         <el-button
                                 type="primary" size="mini"
                                 icon="el-icon-edit"
-                                @click="getInfo(scope.row.noticeID),dialogVisible=true"
+                                @click="getInfo(scope.row.noticeID)"
                         >编辑</el-button>
 
                         <el-button
@@ -72,7 +76,7 @@
                                 type="primary" size="mini"
                                 icon="el-icon-top"
                                 class="blue"
-                                v-if="scope.row.isTop==='0'"
+                                v-if="scope.row.isTop==='0'||scope.row.checkStatus!=='1'"
                                 @click="setTop(scope.row.noticeID)"
                         >置顶</el-button>
                         <el-button
@@ -144,6 +148,13 @@
         name: 'basetable',
         data() {
             return {
+                Statusoptions: [
+                    {value: '1', label: '审核通过'},
+                    {value: '0', label: '审核未通过'},
+                    {value: '2', label: '待审核'},
+                    {value: '3', label: '草稿'},
+
+                ],
                 query: {
                     address: '',
                     content: '',
@@ -157,7 +168,7 @@
                 tableData: [],
                 multipleSelection: [],
                 delList: [],
-                dialogVisible: false,
+                // dialogVisible: false,
                 pageTotal: 0,
                 form: {},
                 // idx: -1,
@@ -171,6 +182,29 @@
             this.getList();
         },
         methods: {
+            dateFormat(fmt, date) {
+                let ret="";
+                date=new Date(date);
+                const opt = {
+                    'Y+': date.getFullYear().toString(), // 年
+                    'm+': (date.getMonth() + 1).toString(), // 月
+                    'd+': date.getDate().toString(), // 日
+                    'H+': date.getHours().toString(), // 时
+                    'M+': date.getMinutes().toString(), // 分
+                    'S+': date.getSeconds().toString() // 秒
+                    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+                }
+                for (let k in opt) {
+                    ret = new RegExp('(' + k + ')').exec(fmt)
+                    if (ret) {
+                        fmt = fmt.replace(
+                            ret[1],
+                            ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, '0')
+                        )
+                    }
+                }
+                return fmt
+            },
             // 获取 easy-mock 的模拟数据
             getList(page = 1) {
                 this.page = page
@@ -215,6 +249,8 @@
                     .then(response => {
                         this.tableData = response.data[0]
                         console.log(this.tableData)
+                        window.sessionStorage.setItem("noticeID",id);
+                        this.$router.push('/admin/manage_notice')
                     })},
             // 删除操作
             // eslint-disable-next-line no-unused-vars
@@ -343,6 +379,9 @@
                     });
                 });
             })},
+            filterTag(value, row) {
+                return row.checkStatus === value;
+            },
             // 分页导航
             handleSizeChange(val) {
                 this.limit = val;

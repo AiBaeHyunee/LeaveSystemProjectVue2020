@@ -29,6 +29,16 @@ import cookie from "js-cookie";
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
+
+Vue.filter('dateYMDHMSFormat',function(dateStr,pattern='YYYY-MM-DD HH:mm:ss'){
+  // eslint-disable-next-line no-undef
+  return moment(dateStr).format(pattern);
+})
+
 Vue.config.productionTip = false
 
 Vue.component('left-menu',leftMenu);

@@ -16,10 +16,9 @@
 
         <el-row>
             <el-col>
-                <el-carousel :interval="4000" type="card" height="250px" >
+                <el-carousel :interval="4000" type="card" height="300px" >
                     <el-carousel-item v-for="(item,index) in imglist" :key="index">
-                        <el-image :src="item.img" :preview-src-list="imgitemlist" id="imgitem" style="width:100%;height:100%"/>
-                    </el-carousel-item>
+                        <el-image :src="item.img" :preview-src-list="imgitemlist" id="imgitem" style="width:100%;height:100%"/>                    </el-carousel-item>
                 </el-carousel>
             </el-col>
         </el-row>
@@ -30,7 +29,8 @@
                 <el-card shadow="hover"  v-model="message">
                     <div slot="header" class="clearfix">
                         <span>公告</span>
-                        <el-button type="small" style="float: right" @click="getList()" v-if="account!=null">我的公告</el-button>
+                        <el-button type="small" style="float: right" @click="getList()" v-if="clerk!='undefined'">我的公告</el-button>
+<!--                        <el-button type="small" style="float: right" @click="returnBack()" v-if="clerk!='undefined',clickButton=1">返回</el-button>-->
                         <!--<el-button style="float: right; padding: 3px 0" type="text">添加</el-button>-->
                     </div>
                     <el-table :data="todoList" :show-header="false" style="width: 100%" class="show_table" >
@@ -53,21 +53,17 @@
                     <el-dialog
                         :visible.sync="dialogVisible"
                         @close="onDialogClose()">
-                        <template slot="title">
-                            <div class='titleSize'>公告详情</div>
-                        </template>
-                        <el-form ref="todoList"  :model="todoList" label-width="80px" class="f2" >
-                            <el-form-item label="标题:" prop="title" style="align-content: center">
-                                <span>{{todoList.title}}</span>
-                                <!--                            <el-input v-model="financeData.stuNumber" placeholder="学号"></el-input>-->
-                            </el-form-item>
-                            <el-divider></el-divider>
-                            <el-form-item label="内容:" prop="content">
-                                <span>{{todoList.content}}</span>
-                            </el-form-item>
-<!--                            <el-divider></el-divider>-->
 
-                        </el-form>
+                        <mavon-editor
+                                class="md"
+                                :value="todoList.content"
+                                :subfield="false"
+                                :defaultOpen="'preview'"
+                                :toolbarsFlag="false"
+                                :editable="false"
+                                :scrollStyle="true"
+                                :ishljs="true"
+                        />
                         <div slot="footer" class="dialog-footer">
                             <el-button @click="dialogVisible = false">关闭</el-button>
                             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -102,7 +98,7 @@
                         <span>待办事项</span>
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
-                    <el-table :show-header="false" :data="todoList" style="width:100%;height: 300px">
+                    <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">
                             <template slot-scope="scope">
                                 <el-checkbox v-model="scope.row.status"></el-checkbox>
@@ -159,16 +155,16 @@
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="2.5" style="padding-left: 120px">
-                    <el-card shadow="hover" :body-style="{padding: '0px'}">
-                        <div class="grid-content grid-con-4">
-                            <i class="el-icon-edit-outline grid-con-icon"></i>
-                            <div class="grid-cont-right">
-                                <el-button @click="modifyPwd">修改密码</el-button>
-                            </div>
-                        </div>
-                    </el-card>
-                </el-col>
+<!--                <el-col :span="2.5" style="padding-left: 120px">-->
+<!--                    <el-card shadow="hover" :body-style="{padding: '0px'}">-->
+<!--                        <div class="grid-content grid-con-4">-->
+<!--                            <i class="el-icon-edit-outline grid-con-icon"></i>-->
+<!--                            <div class="grid-cont-right">-->
+<!--                                <el-button @click="modifyPwd">修改密码</el-button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-card>-->
+<!--                </el-col>-->
 
             </el-row>
         </el-row>
@@ -219,7 +215,9 @@
                 page:1,//当前页
                 limit:10,//每页记录数
                 todoList: [],
-                dialogVisible:false
+                dialogVisible:false,
+                clerk:'',
+                clickButton:0,
             }
         },
         created() {
@@ -256,8 +254,7 @@
                     //         message:res.data.message
                     //     })}
                     // else {}
-
-
+                    this.clickButton =1
                 }, function(err) {
                     console.log(err);
                 })
@@ -283,6 +280,8 @@
                     //         message: res.data.message
                     //     })
                     // }
+                    this.clerk = window.sessionStorage.getItem('clerkAccount')
+                    console.log(this.clerk)
                 })},
             roles(){
                 if(window.sessionStorage.getItem("stuType") !=="undefined") {

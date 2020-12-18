@@ -20,12 +20,13 @@ const login = () =>import("@/components/login");
 // const card = () =>import("@/page/card/card");
 const review_card = () =>import("@/page/card/review_card");
 const search_card = () =>import("@/page/card/search_card");
+const card_notice = () =>import("@/page/card/card_notice");
 
 /*财务处*/
 // const finance = () =>import("@/page/finance/finance");
 const review_finance = () =>import("@/page/finance/review_finance");
 const search_finance = () =>import("@/page/finance/search_finance");
-
+const finance_notice = () =>import("@/page/finance/finance_notice");
 // /*首页*/
 // const notice_detail = () =>import("@/page/home/notice_detail");
 
@@ -35,19 +36,19 @@ const review_library = () =>import("@/page/library/review_library");
 const search_library = () =>import("@/page/library/search_library");
 const statistical_data = () =>import("@/page/library/statistical_data");
 const review_noticel = () =>import("@/page/library/review_notice");
-
+const library_notice = () =>import("@/page/library/library_notice");
 
 /*后勤部*/
 // const logistics = () =>import("@/page/logistics/logistics");
 const review_logistics = () =>import("@/page/logistics/review_logistics");
 const search_logistics = () =>import("@/page/logistics/search_logistics");
-
+const logistics_notice = () =>import("@/page/logistics/logistics_notice");
 /*教务处*/
 // const office = () =>import("@/page/office/office");
 const review_progress = () =>import("@/page/office/review_progress");
 const search_progress = () =>import("@/page/office/search_progress");
 const review_noticeo = () =>import("@/page/office/review_notice");
-const review_message = () =>import("@/page/office/review_message");
+const office_notice = () =>import("@/page/office/office_notice");
 
 /*管理员功能*/
 // const manager = () =>import("@/page/manager/manager");
@@ -55,15 +56,14 @@ const create_notice = () =>import("@/page/manager/create_notice");
 const review_notice = () =>import("@/page/manager/review_notice");
 const search_notice = () =>import("@/page/manager/search_notice");
 const user_manage = () =>import("@/page/manager/user_manage");
-
+const manage_notice= () =>import("@/page/manager/manage_notice");
 const create_manager = () =>import("@/page/manager/user_manage/create_manager");
 const grant_manager = () =>import("@/page/manager/user_manage/grant_manager");
 const edit_manager = () =>import("@/page/manager/user_manage/edit_manager");
 // const update_manager = () =>import("@/page/manager/user_manage/update_manager");
 const manager_detail = () =>import("@/page/manager/user_manage/manager_detail");
 const role_form = () =>import("@/page/manager/user_manage/roleForm");
-//edit_roleForm
-const edit_roleForm = () =>import("@/page/manager/user_manage/edit_roleForm");
+
 
 // const process_manage = () =>import("@/page/manager/process_manage");
 // const answer = () =>import("@/page/manager/answer");
@@ -164,6 +164,14 @@ export const  routes =[
                         component:create_notice
                     },
                     {
+                        path: 'manage_notice',
+                        hidden:false,
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-edit-outline',
+                        component:manage_notice
+                    },
+                    {
                         path: 'review_notice',
                         hidden:false,
                         // name:'审核公告',
@@ -228,14 +236,6 @@ export const  routes =[
                         icon:'el-icon-edit-outline',
                         component:role_form
                     },
-                //    admin
-                    {
-                        path: 'edit_roleForm',
-                        hidden:false,
-                        meta: { title: '角色菜单'},
-                        icon:'el-icon-edit-outline',
-                        component:edit_roleForm
-                    },
                 ]
             },
             {
@@ -258,7 +258,7 @@ export const  routes =[
                         path: 'review_logistics',
                         hidden:false,
                         // name:'宿舍审核',
-                        meta: { title: '宿舍审核'},
+                        meta: { title: '搜索公告'},
                         icon:'el-icon-document-checked',
                         component:review_logistics
                     },
@@ -269,6 +269,14 @@ export const  routes =[
                         meta: { title: '宿舍查询'},
                         icon:'el-icon-search',
                         component:search_logistics
+                    },
+                    {
+                        path: 'logistics_notice',
+                        hidden:false,
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-search',
+                        component:logistics_notice
                     },
                 ]
             },
@@ -292,7 +300,7 @@ export const  routes =[
                         path: 'review_finance',
                         hidden:false,
                         // name:'财务审核',
-                        meta: { title: '财务审核'},
+                        meta: { title: '搜索公告'},
                         icon:'el-icon-document-checked',
                         component:review_finance
                     },
@@ -303,6 +311,14 @@ export const  routes =[
                         meta: { title: '财务查询'},
                         icon:'el-icon-search',
                         component:search_finance
+                    },
+                    {
+                        path: 'finance_notice',
+                        hidden:false,
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-search',
+                        component:finance_notice
                     },
                 ]
             },
@@ -347,6 +363,14 @@ export const  routes =[
                         component:search_library,
                     },
                     {
+                        path: 'library_notice',
+                        hidden:false,
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-search',
+                        component:library_notice
+                    },
+                    {
                         path: 'statistical_data',
                         hidden:false,
                         // name:'统计数据',
@@ -376,7 +400,7 @@ export const  routes =[
                         path: 'review_card',
                         hidden:false,
                         // name:'一卡通审核',
-                        meta: { title: '一卡通审核'},
+                        meta: { title: '搜索公告'},
                         icon:'el-icon-document-checked',
                         component:review_card
                     },
@@ -387,6 +411,14 @@ export const  routes =[
                         meta: { title: '一卡通查询'},
                         icon:'el-icon-search',
                         component:search_card
+                    },
+                    {
+                        path: 'card_notice',
+                        hidden:false,
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-search',
+                        component:card_notice
                     },
                 ]
             },
@@ -431,12 +463,12 @@ export const  routes =[
                         component:search_progress
                     },
                     {
-                        path: 'review_message',
+                        path: 'office_notice',
                         hidden:false,
-                        // name:'发布公告',
-                        meta: { title: '地图'},
-                        icon:'el-icon-edit-outline',
-                        component:review_message
+                        // name:'公告详情',
+                        meta: { title: '公告详情'},
+                        icon:'el-icon-search',
+                        component:office_notice
                     },
                 ]
             },

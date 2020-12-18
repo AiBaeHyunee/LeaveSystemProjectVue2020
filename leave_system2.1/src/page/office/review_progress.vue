@@ -89,9 +89,10 @@
                 tableData:[
                     {key: '一卡通注销', value:'未审核'},
                     {key: '后勤部宿舍迁出', value: '未审核'},
-                    {key: '财务处缴费', value: '未审核'},
                     {key: '图书馆图书借阅', value: '未审核'},
+                    {key: '财务处缴费', value: '未审核'},
                     {key: '教务处毕业证审核', value: '未审核'},
+
                 ],
                 stuInfo:[],
                 number:1,
@@ -129,18 +130,6 @@
                         console.log(response);
                     }
                 })
-                // this.$axios.post('/sector/edu/checkRefuse/' + window.sessionStorage.getItem("edustuNumber"))
-                //     .then(response => {//添加成功
-                //         //提示信息
-                //         this.$message({
-                //             type: 'success',
-                //             message: '发送成功!'
-                //         });
-                //         //回到列表页面 路由跳转
-                //         this.dialogVisible = false
-                //         this.searchEdu()
-                //         console.log(response);
-                //     })
             },
             init(){
                 for(let i = 0;i <=4 ;i++){
@@ -171,8 +160,8 @@
 
                     this.tableData[0].value = res.data.data.process[0].cardStatus;
                     this.tableData[1].value = res.data.data.process[0].dormStatus;
-                    this.tableData[2].value = res.data.data.process[0].financeStatus;
-                    this.tableData[3].value = res.data.data.process[0].libStatus;
+                    this.tableData[2].value = res.data.data.process[0].libStatus;
+                    this.tableData[3].value = res.data.data.process[0].financeStatus;
                     this.tableData[4].value = res.data.data.process[0].eduStatus;
 
                     this.init()

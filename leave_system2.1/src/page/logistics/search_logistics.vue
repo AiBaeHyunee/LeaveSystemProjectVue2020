@@ -89,7 +89,7 @@
                     <el-table-column label="操作" fixed="right" width="200">
                         <template slot-scope="scope">
                             <div>
-                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="logisticsReview(scope.row.stuNumber)" v-if="scope.row.isLeave==='0'">审核</el-button>
+                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="letterReview(scope.row.stuNumber),dialogletterVisible = true" v-if="scope.row.isLeave==='0'">反馈</el-button>
                                 <el-button type="success" size="mini" icon ="el-icon-edit" @click="getInfo(scope.row.stuNumber),dialogVisible = true,dialogTitle='用户详情'" v-if="scope.row.isLeave==='1'">详情</el-button>
                             </div>
                         </template>
@@ -134,6 +134,27 @@
                     </div>
 
                 </el-dialog>
+
+                <el-dialog :title="宿舍反馈" :visible.sync="dialogletterVisible" @close="onDialogClose()">
+                    <el-form ref="letterForm" :model="letterForm" label-width="80px">
+                        <el-form-item label="学号" prop="stuNumber">
+                            <el-input v-model="letterForm.stuNumber" placeholder="学号"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="宿舍破损偿还内容详请" prop="detail">
+                            <el-input v-model="letterForm.detail" placeholder="宿舍破损偿还内容详请"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="应偿还金额" prop="pay">
+                            <el-input v-model="letterForm.pay" placeholder="应偿还金额"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="logisticsReview(letterForm.stuNumber,letterForm)">确定</el-button>
+                    </div>
+                </el-dialog>
+
                 <div class="pagination-bar">
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -185,9 +206,15 @@
                 page:1,//当前页
                 limit:10,//每页记录数
                 dialogVisible:false,
+                dialogletterVisible:false,
                 logisticsData: [],
                 excelobj: 'dorm',
                 extp: this.exportExceltype,
+                letterForm:{
+                    detail:'无',
+                    pay:'0',
+                    stuNumber:'',
+                },
             }
         },
         props: ["exportExceltype"],
@@ -196,27 +223,20 @@
             this.getList()
         },
         methods: {
-            logisticsReview(id) {
-                this.$confirm('是否通过审核', '提示', {
-                    confirmButtonText: '确认审核',
-                    cancelButtonText: '取消审核',
-                    type: 'warning'
-
-                }).then(() => {
-                    this.$axios.post('/sector/dorm/stuNumber/'+id).then(res=>{
+            letterReview(id){
+                this.letterForm.stuNumber = id
+                this.dialogletterVisible = true
+            },
+            logisticsReview(id,listLetter) {
+                teacher.postLetter(id,listLetter).then(res=>{
                         console.log(res.data)
                         this.getList()
                         this.$message({
                             type: 'success',
-                            message: '审核成功!'
-                        });
-                    }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消审核'
+                            message: '提交成功!'
                         });
                     });
-                })
+                this.dialogletterVisible = false
             },
 
             filterTag(value, row) {

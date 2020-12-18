@@ -70,7 +70,10 @@
                     <el-table-column prop="stuName"  label="学生姓名" min-width="120"  sortable></el-table-column>
                     <el-table-column prop="stuDept" label="学生院系" min-width="120" sortable></el-table-column>
                     <el-table-column prop="stuType" label="学历" min-width="120" ></el-table-column>
-                    <el-table-column prop="expense" label="应退款" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="cardBalance" label="一卡通余额" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="dormFine" label="后勤处罚款" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="libFine" label="图书馆偿还" min-width="120" sortable></el-table-column>
+                    <el-table-column prop="expense" label="总计" min-width="120" sortable></el-table-column>
 
                     <el-table-column label="财务处状态" min-width="120"  style="position: center"
                                      :filters="[{ text: '已通过', value: '1' }, { text: '未通过', value: '0' }]"
@@ -221,13 +224,20 @@
                     cancelButtonText: '取消审核',
                     type: 'warning'
                 }).then(() => {
-
                     this.$http.post('/sector/finance/' + id).then(res => {
                         console.log(res.data);
-                        this.$message({
-                            type: 'success',
-                            message: '审核成功!'
-                        });
+                        console.log(res.data.success);
+                        if(res.data.success===false){
+                            this.$message({
+                                type: 'error',
+                                message: '审核失败！请先去其他部门结算赔偿/罚款金额!'
+                            });
+                        }else{
+                            this.$message({
+                                type: 'success',
+                                message: '审核成功!'
+                            });
+                        }
                     }).catch(() => {
                         this.$message({
                             type: 'info',
