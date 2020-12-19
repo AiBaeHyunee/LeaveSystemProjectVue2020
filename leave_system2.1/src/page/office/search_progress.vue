@@ -166,14 +166,15 @@
             //获取
             getList(page =1) {
                 this.page = page
-                this.$axios.get('/sector/edu/findAllByPage?start=' +this.page+'&size=' + this.limit).then(res=>{
+                // this.$axios.get('/sector/edu/findAllByPage?start=' +this.page+'&size=' + this.limit).then(res=>{
+                this.$axios.get('/sector/edu/listAll').then(res=>{
                     //得到一个PageInfo对象
                     //将PageInfo中的total赋值给当前的total
-                    this.page = res.data.data.pages;
-                    this.total = res.data.data.total;
+                    // this.page = res.data.data.pages;
+                    // this.total = res.data.data.total;
                     this.eduData = res.data.data.list;
-                    console.log(this.total);
-                    console.log(this.page);
+                    // console.log(this.total);
+                    console.log(this.eduData );
 
                 }, function(err) {
                     console.log(err);

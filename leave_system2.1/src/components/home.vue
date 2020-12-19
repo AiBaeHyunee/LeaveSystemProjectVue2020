@@ -98,7 +98,7 @@
                         <span>待办事项</span>
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
-                    <el-table :show-header="false" :data="todoList" style="width:100%;">
+                    <el-table :show-header="false" :data="todoList" style="width:100%;" class="show_load" >
                         <el-table-column width="40">
                             <template slot-scope="scope">
                                 <el-checkbox v-model="scope.row.status"></el-checkbox>
@@ -155,16 +155,16 @@
                         </div>
                     </el-card>
                 </el-col>
-<!--                <el-col :span="2.5" style="padding-left: 120px">-->
-<!--                    <el-card shadow="hover" :body-style="{padding: '0px'}">-->
-<!--                        <div class="grid-content grid-con-4">-->
-<!--                            <i class="el-icon-edit-outline grid-con-icon"></i>-->
-<!--                            <div class="grid-cont-right">-->
-<!--                                <el-button @click="modifyPwd">修改密码</el-button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </el-card>-->
-<!--                </el-col>-->
+                <el-col :span="2.5" style="padding-left: 120px">
+                    <el-card shadow="hover" :body-style="{padding: '0px'}">
+                        <div class="grid-content grid-con-4">
+                            <i class="el-icon-edit-outline grid-con-icon"></i>
+                            <div class="grid-cont-right">
+                                <el-button @click="modifyPwd">修改密码</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
 
             </el-row>
         </el-row>
@@ -432,8 +432,13 @@
     .show_table {
         position: relative;
         width: 100%;
-        height: 300px;
+        height: 445px;
         overflow: auto;
+    }
+    .show_load{
+        position: relative;
+        width: 100%;
+        height: 300px;
     }
     .f2{
         font-size: 30px;

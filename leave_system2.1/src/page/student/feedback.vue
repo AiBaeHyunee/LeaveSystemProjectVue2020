@@ -1,22 +1,56 @@
 <template>
     <div>
+
         <div>
+            <!--            &lt;!&ndash; 点击send_message页面中的消息时，跳转到这个页面查看具体收到的消息标题以及内容 &ndash;&gt;-->
+            <!-- 已过时-------》如果msgStatus为1的话，就是新消息，我只需要拿到新消息 -->
             <div>
+                <!--              read接口  学生发送申请给部门管理员，管理员已读后 msgStatus：1 会回复我们的消息（一条），并覆盖掉学生发送的消息。-----》管理员回复申请--申请通过消息 -->
                 <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">申请通过消息</div>
                 <el-table
                         :data="tableData1"
                         border
                         style="width: 95%;margin: 0 auto">
-                    <el-table-column prop="title" label="标题" width="260"></el-table-column>
-                    <el-table-column prop="content" label="内容" width="470"></el-table-column>
-                    <el-table-column prop="messagedate" label="发布时间" width="250"></el-table-column>
-                    <el-table-column prop="receiveID" label="来自" width="110"></el-table-column>
-                    <el-table-column fixed="right" label="操作" min-width="120">
+                    <el-table-column
+                            prop="title"
+                            label="标题"
+                            width="260">
+                    </el-table-column>
+                    <el-table-column
+                            prop="content"
+                            label="内容"
+                            width="470">
+                    </el-table-column>
+                    <el-table-column
+                            prop="messagedate"
+                            label="发布时间"
+                            width="250">
+                    </el-table-column>
+                    <el-table-column
+                            prop="receiveID"
+                            label="来自"
+                            width="110">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="120">
                         <template slot-scope="scope">
+                            <!--                        <template>-->
+                            <!--                             @click="handleRead(scope.$index)"-->
+                            <!--                            <el-button-->
+                            <!--                                    size="small"-->
+                            <!--                                    @click="handleRead(scope.$index, scope.row)"-->
+                            <!--                                    :class="{grey: index === currentIndex }">-->
+                            <!--                                标为已读-->
+                            <!--                            </el-button>-->
                             <el-button
                                     size="small"
                                     type="danger"
-                                    @click="handleDel(scope.row)">删除</el-button>
+                                    @click="handleDel(scope.row)">
+                                删除
+                            </el-button>
+                            <!--                            @click.native.prevent="deleteRow(scope.$index, tableData)"-->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -24,21 +58,58 @@
             <div style="height: 60px"></div>
         </div>
 
+
         <div>
+            <!--            &lt;!&ndash; 点击send_message页面中的消息时，跳转到这个页面查看具体收到的消息标题以及内容 &ndash;&gt;-->
+            <!-- 已过时-------》如果msgStatus为1的话，就是新消息，我只需要拿到新消息 -->
             <div>
+                <!--              unread接口  学生发送申请给部门管理员，管理员未读 msgStatus：0 ------- 即：显示学生提交的申请，管理员还未审核的。-->
                 <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">管理员未审核</div>
                 <el-table
                         :data="tableData2"
                         border
                         style="width: 95%;margin: 0 auto">
-                    <el-table-column prop="title" label="标题" width="200"></el-table-column>
-                    <el-table-column prop="content" label="内容" width="400"></el-table-column>
-                    <el-table-column prop="messagedate" label="发布时间" min-width="150"></el-table-column>
-                    <el-table-column prop="receiveID" label="来自" min-width="170"></el-table-column>
-                    <el-table-column fixed="right" label="操作" min-width="150">
+                    <el-table-column
+                            prop="title"
+                            label="标题"
+                            width="200">
+                    </el-table-column>
+                    <el-table-column
+                            prop="content"
+                            label="内容"
+                            width="400">
+                    </el-table-column>
+                    <el-table-column
+                            prop="messagedate"
+                            label="发布时间"
+                            width="270">
+                    </el-table-column>
+                    <el-table-column
+                            prop="receiveID"
+                            label="来自"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="240">
                         <template slot-scope="scope">
+                            <!--                        <template>-->
+                            <!--                             @click="handleRead(scope.$index)"-->
+                            <!--                            <el-button-->
+                            <!--                                    size="small"-->
+                            <!--                                    @click="handleRead(scope.$index, scope.row)"-->
+                            <!--                                    :class="{grey: index === currentIndex }">-->
+                            <!--                                标为已读-->
+                            <!--                            </el-button>-->
+                            <!--                            <el-button-->
+                            <!--                                    @click="dialogFormVisible = true"-->
+                            <!--                                    type="primary"-->
+                            <!--                                    size="small">-->
+                            <!--                                重新提交申请-->
+                            <!--                            </el-button>-->
                             <el-button
-                                    @click="dialogFormVisible = true"
+                                    @click="jump"
                                     type="primary"
                                     size="small">
                                 重新提交申请
@@ -56,26 +127,6 @@
             <div style="height: 60px"></div>
         </div>
 
-        <div>
-            <el-dialog title="提交申请" :visible.sync="dialogFormVisible">
-                <el-form :model="messageForm" :rules="rules">
-<!--                    <el-form-item label="接收方" prop="receiveID" :label-width="formLabelWidth">-->
-<!--                        <el-input v-model="messageForm.receiveID" autocomplete="off"></el-input>-->
-<!--                    </el-form-item>-->
-<!--                    781917504145457152-->
-                    <el-form-item label="标题" prop="title" :label-width="formLabelWidth">
-                        <el-input v-model="messageForm.title" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="申请内容" prop="content" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="messageForm.content"></el-input>
-                    </el-form-item>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="submitForm(),dialogFormVisible = false">发送</el-button>
-                    <el-button @click="dialogFormVisible = false">取消</el-button>
-                </div>
-            </el-dialog>
-        </div>
     </div>
 
 
@@ -83,30 +134,23 @@
 
 <script>
     import axios from "axios"
-    import stu from "@/api/edu/stu.js"
 
     export default {
-        name: "answer_message",
+        // name: "answer_message",
 
         data() {
             return {
-                sendID:'',
-                receiveID:'',
-
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
 
-                // answer_show: true,//expand框是否展开
 
                 message: 'first',
                 showHeader: false,
-                msgform:[],//将 messageForm 的数据push进这个数组
-                messageForm: {
-                    // receiveID:'781917504145457152'
-                },//在表单中填写的数据会存放在这个对象中
+                msgform:[],
+                messageForm: {},
                 rules: {
-                    receiveID: [
-                        { required: true, message: '请输入接收方（必填）', trigger: 'blur' },
+                    title: [
+                        { required: true, message: '请输入消息标题（必填）', trigger: 'blur' },
                     ],
                     content: [
                         { required: true, message: '请填写消息内容', trigger: 'blur' }
@@ -129,9 +173,6 @@
         created() {
             this.getData1();
             this.getData2();
-            // createFilter();
-            // handleRead();
-            this.handleDel();
         },
         methods: {
             // 已过时----》从后端拿用户已发布消息的数据渲染到 tableData[]中
@@ -143,16 +184,11 @@
                         this.tableData1 = res.data.data;
                         console.log('1')
                         console.log(this.tableData1)
-                        // if(this.tableData.num = 0) {
-                        //     this.answer_show = false;
-                        // }
-                        // createFilter();//过滤数据
                     }
                 });
             },
             //
             getData2() {
-                //无请求参数
                 axios.get('student/showmessageUnread').then(res => {
                     console.log(res.data);
                     if (res.data.code === 20000) {
@@ -164,24 +200,7 @@
             },
 
 
-            // 当点击 未读消息中标为已读 时，改变字体颜色
-            // handleRead(index,row) {
-            //     // this.idx = index;
-            //     console.log(row);
-            //     this.form = row;
-            //     // const item = this.tableData.splice(index, 1);
-            //     // console.log(item)   // item为数组
-            //     this.currentIndex = index;
-            //     this.$emit('tabClick',index);
-            //     // this.$set(this.tableData2, this.idx, this.form);
-            // },
-
-
             handleDel(row) {
-                // 从 read[]列表 中删除该行
-                // const item = this.read.splice(index, 1);//前端静态操作
-                // console.log(item)
-                // 将该消息的 messageID 作为请求参数发送给后端
                 console.log(typeof row.messageID)
                 console.log(row.messageID)
 
@@ -202,65 +221,22 @@
                                     console.log('失败')
                                 }
                             });
-                        //index是行索引号，1是指删除一行
-                        // this.tableData1.splice(index, 1);
                     })
                     .catch(() => {});
 
-                // row.splice(index, 1);
-                // console.log(JSON.stringify(row.messageID))
-                // axios.post('student/deletemessage', {
-                //     params: {
-                //         //将当前删除行的 messageID 发送给后端
-                //         messageID:JSON.stringify(row.messageID),
-                //     }
-                // })
             },
 
 
-            // 提交表单
-            submitForm() {
-                console.log('messageForm')
-                console.log(JSON.stringify(this.messageForm));
-                console.log(this.messageForm);
-                this.getData1();
-                this.getData2();
-                stu.SendMessage(this.messageForm).then(res=>{
-                    // 不拿tableData的数据，只需拿后端返回的状态，如果code=20000就表示后端接收到了数据
-                    console.log(res.data);//或者就是res.data
-                    if (res.data.code === 20000) {
-                        // 后端成功接收到了数据
-                        // this.returncode = res.data.code;
-                        // console.log(this.returncode);
-                        console.log('后端接收成功！')
-                        alert('发送成功！');
-                        //this.tableData = res.data.list;//或者就是res.data
-                    }else {
-                        console.log('失败')
-                    }
-                })
-                // this.$axios.post('student/ResendMessage',this.messageForm)
-                //     .then(res => {
-                //         // 不拿tableData的数据，只需拿后端返回的状态，如果code=20000就表示后端接收到了数据
-                //         console.log(res.data);//或者就是res.data
-                //         if (res.data.code === 20000) {
-                //             // 后端成功接收到了数据
-                //             // this.returncode = res.data.code;
-                //             // console.log(this.returncode);
-                //             console.log('后端接收成功！')
-                //             alert('发送成功！');
-                //             //this.tableData = res.data.list;//或者就是res.data
-                //         }else {
-                //             console.log('失败')
-                //         }
-                //     });
+            jump() {
+                this.$router.push({path: '/student/review_submit'})
             },
+
+
         }
     }
 </script>
 
 <style scoped>
-    /* 点击按钮变颜色 */
     .grey {
         color: #8c939d;
     }
@@ -284,21 +260,7 @@
         float: none!important;
     }
 
-    /*查看回复按钮*/
-    /*.transition-box {*/
-    /*    margin-bottom: 10px;*/
-    /*    width: 200px;*/
-    /*    height: 100px;*/
-    /*    border-radius: 4px;*/
-    /*    background-color: #409EFF;*/
-    /*    text-align: center;*/
-    /*    color: #fff;*/
-    /*    padding: 40px 20px;*/
-    /*    box-sizing: border-box;*/
-    /*    margin-right: 20px;*/
-    /*}*/
 
-    /*表格扩展框*/
     .demo-table-expand {
         font-size: 0;
     }

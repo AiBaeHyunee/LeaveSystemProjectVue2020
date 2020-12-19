@@ -53,7 +53,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <el-button type="success" size="mini" icon ="el-icon-edit" @click="removeReview(scope.row.stuNumber)">详情</el-button>
-                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.stuNumber)" v-if="scope.row.libStatus==='0'">审核</el-button>
+<!--                                <el-button type="primary" size="mini" icon ="el-icon-edit" @click="cardReview(scope.row.stuNumber)" v-if="scope.row.libStatus==='0'">审核</el-button>-->
                             </div>
                         </template>
                     </el-table-column>

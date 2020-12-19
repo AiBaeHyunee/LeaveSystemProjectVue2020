@@ -22,34 +22,34 @@
         <div style="height: 60px"></div>
 
         <div>
-            <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">申请通过消息</div>
-            <table class="infoTable bh-mb-36" style="width: 80%;margin: 0 auto">
+            <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">离校表单</div>
+            <table class="infoTable bh-mb-36" style="width: 70%;margin: 0 auto;text-align: center;">
                 <tr>
-                    <td class="column bh-mb-36">图书馆</td>
+                    <td class="column bh-mb-24">图书馆</td>
                     <!--                    <td style="color: #606266" v-if="tableData[0].libStatus='1'">通过</td>-->
                     <!--                    <td style="color: #606266" v-if="tableData[0].libStatus='0'">未通过</td>-->
-                    <td style="color: #606266" v-if="show11">通过</td>
-                    <td style="color: #606266" v-if="show12">未通过</td>
+                    <td style="color: green" v-if="show11">通过</td>
+                    <td style="color: red" v-if="show12">未通过</td>
                 </tr>
                 <tr>
-                    <td class="column bh-mb-36">一卡通</td>
-                    <td style="color: #606266" v-if="show21">通过</td>
-                    <td style="color: #606266" v-if="show22">未通过</td>
+                    <td class="column bh-mb-24">一卡通</td>
+                    <td style="color: green" v-if="show21">通过</td>
+                    <td style="color: red" v-if="show22">未通过</td>
                 </tr>
                 <tr>
-                    <td class="column bh-mb-36">财务处</td>
-                    <td style="color: #606266" v-if="show31">通过</td>
-                    <td style="color: #606266" v-if="show32">未通过</td>
+                    <td class="column bh-mb-24">财务处</td>
+                    <td style="color: green" v-if="show31">通过</td>
+                    <td style="color: red" v-if="show32">未通过</td>
                 </tr>
                 <tr>
-                    <td class="column bh-mb-36">后勤处</td>
-                    <td style="color: #606266" v-if="show41">通过</td>
-                    <td style="color: #606266" v-if="show42">未通过</td>
+                    <td class="column bh-mb-24">后勤处</td>
+                    <td style="color: green" v-if="show41">通过</td>
+                    <td style="color: red" v-if="show42">未通过</td>
                 </tr>
                 <tr>
-                    <td class="column bh-mb-36">教务处</td>
-                    <td style="color: #606266" v-if="show51">通过</td>
-                    <td style="color: #606266" v-if="show52">未通过</td>
+                    <td class="column bh-mb-24">教务处</td>
+                    <td style="color: green" v-if="show51">通过</td>
+                    <td style="color: red" v-if="show52">未通过</td>
                 </tr>
             </table>
         </div>
@@ -105,11 +105,12 @@
                             // this.num = 0; //通过总数
                             this.tableData = res.data.data;
                             console.log('test')
-                            console.log(this.tableData[0].libStatus)
-                            console.log(this.tableData[0].cardStatus)
-                            console.log(this.tableData[0].dormStatus)
-                            console.log(this.tableData[0].financeStatus)
-                            console.log(typeof this.tableData[0].eduStatus)
+                            // console.log(this.tableData[0].libStatus)
+                            // console.log(this.tableData[0].cardStatus)
+                            // console.log(this.tableData[0].dormStatus)
+                            // console.log(this.tableData[0].financeStatus)
+                            console.log(this.tableData[0].eduStatus)
+                            // console.log(typeof this.tableData[0].eduStatus)
 
                             this.num1 = this.tableData[0].libStatus;
                             this.num2 = this.tableData[0].cardStatus;
@@ -132,7 +133,7 @@
                             }
                             if(this.num2 == '0') {
                                 this.show21 = false
-                                this.show32 = true
+                                this.show22 = true
                             }
 
                             if(this.num3 == '1') {

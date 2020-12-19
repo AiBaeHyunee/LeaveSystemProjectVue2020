@@ -98,7 +98,8 @@
                 </el-table>
                 <el-dialog
                         :visible.sync="dialogVisible"
-                        @close="onDialogClose()">
+                        @close="onDialogClose()"
+                >
                     <template slot="title">
                         <div class='titleSize'>用户详情</div>
                     </template>
@@ -135,14 +136,15 @@
 
                 </el-dialog>
 
-                <el-dialog :title="宿舍反馈" :visible.sync="dialogletterVisible" @close="onDialogClose()">
-                    <el-form ref="letterForm" :model="letterForm" label-width="80px">
+                <el-dialog title="宿舍反馈" :visible.sync="dialogletterVisible" @close="onDialogClose()">
+                    <el-form ref="letterForm" :model="letterForm" label-width="120px">
                         <el-form-item label="学号" prop="stuNumber">
                             <el-input v-model="letterForm.stuNumber" placeholder="学号"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="宿舍破损偿还内容详请" prop="detail">
-                            <el-input v-model="letterForm.detail" placeholder="宿舍破损偿还内容详请"></el-input>
+                        <el-form-item label="偿还内容详请" prop="detail">
+<!--                            <el-input v-model="letterForm.detail" placeholder="宿舍破损偿还内容详请"></el-input>-->
+                            <el-input type="textarea" rows="5" v-model="letterForm.detail"></el-input>
                         </el-form-item>
 
                         <el-form-item label="应偿还金额" prop="pay">
@@ -349,8 +351,7 @@
         font-size: 20px;
         text-align:center;
         font-weight:bold;
-
-        border: 1px solid #dcdfe6 !important;
+        border: 1px solid #102657 !important;
     }
 </style>
 
