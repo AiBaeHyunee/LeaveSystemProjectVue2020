@@ -34,7 +34,7 @@
                     <el-table-column
                             fixed="right"
                             label="操作"
-                            width="120">
+                            min-width="120">
                         <template slot-scope="scope">
                             <!--                        <template>-->
                             <!--                             @click="handleRead(scope.$index)"-->

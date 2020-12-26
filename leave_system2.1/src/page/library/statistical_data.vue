@@ -11,7 +11,7 @@
                 <el-col :span="10" offset="1">
                     <ebook></ebook>
                 </el-col>
-                <el-col :span="13">
+                <el-col :span="13" >
                     <el-card>
                         <elib></elib>
                     </el-card>

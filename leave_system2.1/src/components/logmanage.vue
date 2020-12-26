@@ -104,7 +104,8 @@
                 extp: this.exportExceltype,
                 logForm:{
                     pageSize:10,
-                    startPage:1
+                    startPage:1,
+                    logClass:'info',
                 },
             }
         },

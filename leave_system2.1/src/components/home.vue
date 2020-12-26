@@ -30,7 +30,7 @@
                     <div slot="header" class="clearfix">
                         <span>公告</span>
                         <el-button type="small" style="float: right" @click="getList()" v-if="clerk!='undefined'">我的公告</el-button>
-<!--                        <el-button type="small" style="float: right" @click="returnBack()" v-if="clerk!='undefined',clickButton=1">返回</el-button>-->
+                        <el-button type="small" style="float: right" @click="getInfo()">所有公告</el-button>
                         <!--<el-button style="float: right; padding: 3px 0" type="text">添加</el-button>-->
                     </div>
                     <el-table :data="todoList" :show-header="false" style="width: 100%" class="show_table" >

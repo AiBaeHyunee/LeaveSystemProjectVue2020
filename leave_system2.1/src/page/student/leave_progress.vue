@@ -3,17 +3,17 @@
         <div>
             <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">离校进度</div>
             <el-steps :space="200"  finish-status="success" style="width: 70%;margin: 0 auto">
-                <el-step title="图书馆" description="审核已通过" v-if="show11" status="success"></el-step>
-                <el-step title="图书馆" description="审核未通过" v-if="show12" statsus="warning" style="color: red"></el-step>
-
                 <el-step title="一卡通" description="审核已通过" v-if="show21" status="success"></el-step>
                 <el-step title="一卡通" description="审核未通过" v-if="show22" status="warning" style="color: red"></el-step>
 
-                <el-step title="财务处" description="审核已通过" v-if="show31" status="success"></el-step>
-                <el-step title="财务处" description="审核未通过" v-if="show32" status="warning" style="color: red"></el-step>
+                <el-step title="图书馆" description="审核已通过" v-if="show11" status="success"></el-step>
+                <el-step title="图书馆" description="审核未通过" v-if="show12" statsus="warning" style="color: red"></el-step>
 
                 <el-step title="后勤处" description="审核已通过" v-if="show41" status="success"></el-step>
                 <el-step title="后勤处" description="审核未通过" v-if="show42" status="warning" style="color: red"></el-step>
+
+                <el-step title="财务处" description="审核已通过" v-if="show31" status="success"></el-step>
+                <el-step title="财务处" description="审核未通过" v-if="show32" status="warning" style="color: red"></el-step>
 
                 <el-step title="教务处" description="审核已通过" v-if="show51" status="success"></el-step>
                 <el-step title="教务处" description="审核未通过"  v-if="show52" status="warning" style="color: red"></el-step>
@@ -25,26 +25,24 @@
             <div class="bh-col-md-12 bh-form-groupname borderLeft bh-mb-24" style="text-align: left;margin-top: 20px;margin-bottom: 15px">离校表单</div>
             <table class="infoTable bh-mb-36" style="width: 70%;margin: 0 auto;text-align: center;">
                 <tr>
-                    <td class="column bh-mb-24">图书馆</td>
-                    <!--                    <td style="color: #606266" v-if="tableData[0].libStatus='1'">通过</td>-->
-                    <!--                    <td style="color: #606266" v-if="tableData[0].libStatus='0'">未通过</td>-->
-                    <td style="color: green" v-if="show11">通过</td>
-                    <td style="color: red" v-if="show12">未通过</td>
-                </tr>
-                <tr>
                     <td class="column bh-mb-24">一卡通</td>
                     <td style="color: green" v-if="show21">通过</td>
                     <td style="color: red" v-if="show22">未通过</td>
                 </tr>
                 <tr>
-                    <td class="column bh-mb-24">财务处</td>
-                    <td style="color: green" v-if="show31">通过</td>
-                    <td style="color: red" v-if="show32">未通过</td>
+                    <td class="column bh-mb-24">图书馆</td>
+                    <td style="color: green" v-if="show11">通过</td>
+                    <td style="color: red" v-if="show12">未通过</td>
                 </tr>
                 <tr>
                     <td class="column bh-mb-24">后勤处</td>
                     <td style="color: green" v-if="show41">通过</td>
                     <td style="color: red" v-if="show42">未通过</td>
+                </tr>
+                <tr>
+                    <td class="column bh-mb-24">财务处</td>
+                    <td style="color: green" v-if="show31">通过</td>
+                    <td style="color: red" v-if="show32">未通过</td>
                 </tr>
                 <tr>
                     <td class="column bh-mb-24">教务处</td>
@@ -79,7 +77,7 @@
 
                 show51:false,
                 show52:false,
-                len:'',
+                // len:'',
                 //0 审核不通过；1 通过
                 num1: '',// libStatus:'',
                 num2: '',// cardStatus:'',
@@ -105,12 +103,11 @@
                             // this.num = 0; //通过总数
                             this.tableData = res.data.data;
                             console.log('test')
-                            // console.log(this.tableData[0].libStatus)
-                            // console.log(this.tableData[0].cardStatus)
-                            // console.log(this.tableData[0].dormStatus)
-                            // console.log(this.tableData[0].financeStatus)
+                            console.log(this.tableData[0].libStatus)
+                            console.log(this.tableData[0].cardStatus)
+                            console.log(this.tableData[0].dormStatus)
+                            console.log(this.tableData[0].financeStatus)
                             console.log(this.tableData[0].eduStatus)
-                            // console.log(typeof this.tableData[0].eduStatus)
 
                             this.num1 = this.tableData[0].libStatus;
                             this.num2 = this.tableData[0].cardStatus;
@@ -162,7 +159,6 @@
                                 this.show51 = false
                                 this.show52 = true
                             }
-                            // console.log(this.len)
                         }
                     })
             },

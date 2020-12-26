@@ -18,7 +18,7 @@
                   highlight-current
                   :props="defaultProps">
                 </el-tree>
-              <router-link :to="'/admin/edit_rolefrom'">
+              <router-link :to="'/admin/edit_roleform'">
                 <el-button type="primary" size="mini" icon="el-icon-edit" >编辑角色</el-button>
               </router-link>
               <router-link :to="'/admin/edit_manager'">

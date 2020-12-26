@@ -198,7 +198,7 @@
                 this.search = {
                     name: ''
                 }
-                this.doSearch()
+                this.fetchNodeList()
             },
             filterNode(value, data) {
                 if (!value) return true

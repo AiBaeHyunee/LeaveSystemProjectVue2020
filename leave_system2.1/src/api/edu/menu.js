@@ -24,7 +24,7 @@ export default {
     //搜索
     doMenuSearch(name,List){
         return request({
-            url:'/admin/authority/name'+name,
+            url:'/admin/authority/name/'+name,
             method:'get',
             data:List
         })

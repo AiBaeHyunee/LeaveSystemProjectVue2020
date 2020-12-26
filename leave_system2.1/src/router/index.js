@@ -63,7 +63,7 @@ const edit_manager = () =>import("@/page/manager/user_manage/edit_manager");
 // const update_manager = () =>import("@/page/manager/user_manage/update_manager");
 const manager_detail = () =>import("@/page/manager/user_manage/manager_detail");
 const role_form = () =>import("@/page/manager/user_manage/roleForm");
-
+const edit_roleform = () =>import("@/page/manager/user_manage/edit_roleForm");
 
 // const process_manage = () =>import("@/page/manager/process_manage");
 // const answer = () =>import("@/page/manager/answer");
@@ -235,6 +235,13 @@ export const  routes =[
                         meta: { title: '角色菜单'},
                         icon:'el-icon-edit-outline',
                         component:role_form
+                    },
+                    {
+                        path: 'edit_roleform',
+                        hidden:false,
+                        meta: { title: '编辑角色菜单'},
+                        icon:'el-icon-edit-outline',
+                        component:edit_roleform
                     },
                 ]
             },

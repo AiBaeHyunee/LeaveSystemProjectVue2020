@@ -4,7 +4,7 @@
         <div class="crumbs" style="margin-bottom: 30px">
             <el-breadcrumb separator="/">
                 <!--                <el-breadcrumb-item :to="{path: '/manager/empower/detail_feedback'}">-->
-                <el-breadcrumb-item :to="{path: '/manager/empower/feedback'}">
+                <el-breadcrumb-item :to="{path: '/student/feedback'}">
                     返回消息详情
                 </el-breadcrumb-item>
                 <!--                <el-breadcrumb-item :to="{ path: '/student/tijiao_shenhe' }">-->
